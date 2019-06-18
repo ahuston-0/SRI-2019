@@ -4,4 +4,5 @@ output
 Feature\ Detection.ipynb
 Image\ conversion.ipynb
 notes.txt
-.ipynb_checkpoints
+.*
+!/.gitignore
