@@ -4,4 +4,4 @@ Feature\ Detection.ipynb
 Image\ conversion.ipynb
 notes.txt
 .*
-!/.gitignore
+.gitignore
