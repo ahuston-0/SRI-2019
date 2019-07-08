@@ -1,0 +1,7 @@
+buoys- green triangle on left, red circle on right (international standard)
+detect a buoy, determine its type, draw a waypoint 
+edge detection for finding buoys
+use lidar for getting rough estimates of where the buoys are
+lidar- range, bearing, azimuth (up/down, bearing)
+radar- range, bearing rate
+
