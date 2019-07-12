@@ -1,0 +1,7 @@
+\BOOKMARK [1][-]{section.1}{Overview}{}% 1
+\BOOKMARK [1][-]{section.2}{Maneuvering Model and Waves}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{usv gazebo dynamics plugin}{section.2}% 3
+\BOOKMARK [1][-]{section.3}{Thrust}{}% 4
+\BOOKMARK [2][-]{subsection.3.1}{usv gazebo thrust plugin}{section.3}% 5
+\BOOKMARK [1][-]{section.4}{Wind}{}% 6
+\BOOKMARK [2][-]{subsection.4.1}{usv gazebo wind plugin}{section.4}% 7
