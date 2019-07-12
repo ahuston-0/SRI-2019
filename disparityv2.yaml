@@ -1,0 +1,43 @@
+!!python/object/new:dynamic_reconfigure.encoding.Config
+dictitems:
+  P1: 200.0
+  P2: 400.0
+  correlation_window_size: 19
+  disp12MaxDiff: 0
+  disparity_range: 80
+  fullDP: false
+  groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+    dictitems:
+      P1: 200.0
+      P2: 400.0
+      correlation_window_size: 19
+      disp12MaxDiff: 0
+      disparity_range: 80
+      fullDP: false
+      groups: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      id: 0
+      min_disparity: 0
+      name: Default
+      parameters: !!python/object/new:dynamic_reconfigure.encoding.Config
+        state: []
+      parent: 0
+      prefilter_cap: 31
+      prefilter_size: 17
+      speckle_range: 4
+      speckle_size: 100
+      state: true
+      stereo_algorithm: 0
+      texture_threshold: 10
+      type: ''
+      uniqueness_ratio: 37.0
+    state: []
+  min_disparity: 0
+  prefilter_cap: 31
+  prefilter_size: 17
+  speckle_range: 4
+  speckle_size: 100
+  stereo_algorithm: 0
+  texture_threshold: 10
+  uniqueness_ratio: 37.0
+state: []
