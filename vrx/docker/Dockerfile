@@ -118,6 +118,7 @@ ENTRYPOINT ["fixuid"]
 
 CMD ["/bin/bash"]
 # Customize your image here.
-
+ENV ROS_MASTER_URI=http://172.17.0.2:11311
+ENV ROS_IP=172.17.0.2
 
 # ...

@@ -5,3 +5,7 @@ use lidar for getting rough estimates of where the buoys are
 lidar- range, bearing, azimuth (up/down, bearing)
 radar- range, bearing rate
 
+###Notes for migrating docker images###
+Add ENV variables to dockerfile for simplifying networking (IP/MASTER_URI)
+
+
