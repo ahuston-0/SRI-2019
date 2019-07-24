@@ -15,10 +15,10 @@
       <param name="sensor_model/max_range" value="500.0" />
 
       <!-- values below 0.5 on the pointcloud are disregarded -->
-      <param name="pointcloud_min_z" value="-0.5" /> 
+      <param name="pointcloud_min_z" value="0.5" /> 
 
       <!-- values above 1.0 on the pointcloud are disregarded -->
-      <param name="pointcloud_max_z" value="100.0" />     
+      <param name="pointcloud_max_z" value="1.0" />     
 
       <!-- data source to integrate (PointCloud2) -->
       <remap from="cloud_in" to="/lidar_wamv/points" />
