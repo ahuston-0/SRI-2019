@@ -10,7 +10,6 @@ Install ROS and the Virtual RobotX (VRX) environment using either of the install
 In addition, users should install the following Python packages (versions are the latest tested):
 * OpenCV (version = 3.2.0)
 * NumPy (version = 1.16.4)
-* Matplotlib (version = 3.1.0)
 * Scikit-learn (version = 0.21.2)
 
 All of the code is written using Python 2 in a Jupyter notebook and as such both packages should be installed. ROS Package equivalents will be implemented when a final version of the notebooks are prepared.
@@ -23,19 +22,16 @@ Open an instance of the Docker image and setup the ROS_MASTER_URI and ROS_IP to 
 
 `$ roslaunch vrx_gazebo vrx.launch`
 
-`$ roslaunch vrx_gazebo usv_keydrive.launch`
+If you do not have a controller or joystick to use for controlling the WAM-V, then run `$ roslaunch vrx_gazebo key_vrx.launch` instead.
 
-If you have a controller or joystick that you would like to use, plug it in to your computer and launch `usv_joydrive.launch` instead of `usv_keydrive.launch`
+And then in a terminal on the host machine run the following commands (after setting up the ROS_MASTER_URI and ROS_IP)
 
-And then in separate terminals on the host machine run the following commands (after setting up the ROS_MASTER_URI and ROS_IP)
+`$ roslaunch otherstuff.launch`
 
-`$ ROS_NAMESPACE=stereo rosrun stereo_image_proc stereo_image_proc`
 
-`$ rosrun rqt_reconfigure rqt_reconfigure`
+With those two commands, the WAM-V should be in a customizable state that will allow you to run the latest code. To test that everything is working properly, `$ rostopic list` can be run but with stereo_image_proc running there will be nearly 150 topics being published. With the system set up properly, run mapping.ipynb in Jupyter Notebook and two windows should appear, a map and the filtered image from the left lens of the front camera.
 
-With those four commands, the WAM-V should be in a customizable state that will allow you to run the latest code. To test that everything is working properly, `$ rostopic list` can be run but with stereo_image_proc running there will be nearly 150 topics being published. With the system set up properly, run Asif_pool_live.ipynb in Jupyter Notebook \*\*\*update this to the latest version of the code\*\*\* and two windows should appear, a disparity map and the filtered image from the left lens of the front camera.
-
-\*\*\*to be continued\*\*\*
+If you would like to customize the mapping notebook config.txt has a list of values available to edit. One thing to note about the configuration file is that the mapping program with no displays runs at about 6hz and each additional window that is open decreases that. 
   
 This material is based upon work funded by the U.S. Department of Homeland Security under Cooperative Agreement No. 2014-ST-061-ML0001
 
