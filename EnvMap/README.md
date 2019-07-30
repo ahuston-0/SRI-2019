@@ -1,10 +1,10 @@
-#Building EnvMap from Source
+# Building EnvMap from Source
 
-##Prerequisites
-*Cython
-*Python 2.7
+## Prerequisites
+* Cython
+* Python 2.7
 
-##Terminal Instructions
+## Terminal Instructions
 In terminal, run:
 
 `python EnvMap_setup.py build_ext --inplace`
