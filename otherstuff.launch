@@ -6,7 +6,7 @@
   <node pkg="tf" type="static_transform_publisher" name="link1_broadcaster" args="0 0 0 -1.57 0 -1.57 front_left_camera_link front_left_camera_link_optical 100" />
   
   <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
-      <param name="resolution" value="1.0" />
+      <param name="resolution" value="0.5" />
       
       <!-- fixed map frame (set to 'map' if SLAM or localization running!) -->
       <param name="frame_id" type="string" value="odom" />
