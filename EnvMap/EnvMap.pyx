@@ -18,13 +18,13 @@ class EnvMap:
         :param image: A 2D list containing the current data in the map
         :return: None
         """
-        for i in range(len(self._curr_map)):
-            if self._curr_map[i]
-            for j in range(len(self._curr_map[i])):
-                if self._curr_map[i][j] == 30:
-                    self._buoy_data.append([i - self._offset[0], j - self._offset[1], "green"])
-                elif self._curr_map[i][j] == 60:
-                    self._buoy_data.append([i - self._offset[0], j - self._offset[1], "red"])
+        for i, row in enumerate(self._curr_map):
+            if sum(row)/len(row) > 0:
+                for j, pixel in enumerate(row):
+                    if pixel == 30:
+                        self._buoy_data.append([i - self._offset[0], j - self._offset[1], "green"])
+                    elif pixel == 50:
+                        self._buoy_data.append([i - self._offset[0], j - self._offset[1], "red"])
 
     def get_map(self):
         """
