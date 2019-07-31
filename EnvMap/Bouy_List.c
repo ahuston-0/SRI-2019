@@ -3,12 +3,12 @@
 /* BEGIN: Cython Metadata
 {
     "distutils": {
-        "name": "EnvMap", 
+        "name": "Bouy_List", 
         "sources": [
-            "EnvMap.pyx"
+            "Bouy_List.pyx"
         ]
     }, 
-    "module_name": "EnvMap"
+    "module_name": "Bouy_List"
 }
 END: Cython Metadata */
 
@@ -602,8 +602,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__EnvMap
-#define __PYX_HAVE_API__EnvMap
+#define __PYX_HAVE__Bouy_List
+#define __PYX_HAVE_API__Bouy_List
 /* Early includes */
 #ifdef _OPENMP
 #include <omp.h>
@@ -813,7 +813,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "EnvMap.pyx",
+  "Bouy_List.pyx",
 };
 
 /*--- Type declarations ---*/
@@ -882,15 +882,14 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
-/* PyObjectGetAttrStr.proto */
+/* PyObjectSetAttrStr.proto */
 #if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
+#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
 #else
-#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
+#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
+#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
 #endif
-
-/* GetBuiltinName.proto */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
 /* RaiseArgTupleInvalid.proto */
 static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
@@ -904,13 +903,41 @@ static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
     PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
     const char* function_name);
 
-/* PyObjectSetAttrStr.proto */
-#if CYTHON_USE_TYPE_SLOTS
-#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o, n, NULL)
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value);
+/* GetItemInt.proto */
+#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
+    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
+               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
+#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
+    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
+    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
+    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              int wraparound, int boundscheck);
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
+                                                     int is_list, int wraparound, int boundscheck);
+
+/* PyIntBinop.proto */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
 #else
-#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
-#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
+/* PyObjectGetAttrStr.proto */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name);
+#else
+#define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
 #endif
 
 /* PyFunctionFastCall.proto */
@@ -965,39 +992,6 @@ static CYTHON_INLINE PyObject *__Pyx_PyCFunction_FastCall(PyObject *func, PyObje
 /* PyObjectCallOneArg.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObject *arg);
 
-/* PyIntBinop.proto */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace, int zerodivision_check);
-#else
-#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace, zerodivision_check)\
-    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
-#endif
-
-/* PyIntCompare.proto */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, long intval, long inplace);
-
-/* GetItemInt.proto */
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) :\
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) :\
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck)\
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ?\
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) :\
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
-
 /* ListAppend.proto */
 #if CYTHON_USE_PYLIST_INTERNALS && CYTHON_ASSUME_SAFE_MACROS
 static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
@@ -1026,6 +1020,56 @@ static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name
 
 /* append.proto */
 static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
+
+/* GetBuiltinName.proto */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
+
+/* PyDictVersioning.proto */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
+#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
+    (version_var) = __PYX_GET_DICT_VERSION(dict);\
+    (cache_var) = (value);
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
+    static PY_UINT64_T __pyx_dict_version = 0;\
+    static PyObject *__pyx_dict_cached_value = NULL;\
+    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
+        (VAR) = __pyx_dict_cached_value;\
+    } else {\
+        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
+        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
+    }\
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
+#else
+#define __PYX_GET_DICT_VERSION(dict)  (0)
+#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
+#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
+#endif
+
+/* GetModuleGlobalName.proto */
+#if CYTHON_USE_DICT_VERSIONS
+#define __Pyx_GetModuleGlobalName(var, name)  {\
+    static PY_UINT64_T __pyx_dict_version = 0;\
+    static PyObject *__pyx_dict_cached_value = NULL;\
+    (var) = (likely(__pyx_dict_version == __PYX_GET_DICT_VERSION(__pyx_d))) ?\
+        (likely(__pyx_dict_cached_value) ? __Pyx_NewRef(__pyx_dict_cached_value) : __Pyx_GetBuiltinName(name)) :\
+        __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
+}
+#define __Pyx_GetModuleGlobalNameUncached(var, name)  {\
+    PY_UINT64_T __pyx_dict_version;\
+    PyObject *__pyx_dict_cached_value;\
+    (var) = __Pyx__GetModuleGlobalName(name, &__pyx_dict_version, &__pyx_dict_cached_value);\
+}
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value);
+#else
+#define __Pyx_GetModuleGlobalName(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
+#define __Pyx_GetModuleGlobalNameUncached(var, name)  (var) = __Pyx__GetModuleGlobalName(name)
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name);
+#endif
 
 /* FetchCommonType.proto */
 static PyTypeObject* __Pyx_FetchCommonType(PyTypeObject* type);
@@ -1103,32 +1147,6 @@ static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases,
                                            PyObject *mkw, PyObject *modname, PyObject *doc);
 static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
                                       PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
-
-/* PyDictVersioning.proto */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-#define __PYX_DICT_VERSION_INIT  ((PY_UINT64_T) -1)
-#define __PYX_GET_DICT_VERSION(dict)  (((PyDictObject*)(dict))->ma_version_tag)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)\
-    (version_var) = __PYX_GET_DICT_VERSION(dict);\
-    (cache_var) = (value);
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP) {\
-    static PY_UINT64_T __pyx_dict_version = 0;\
-    static PyObject *__pyx_dict_cached_value = NULL;\
-    if (likely(__PYX_GET_DICT_VERSION(DICT) == __pyx_dict_version)) {\
-        (VAR) = __pyx_dict_cached_value;\
-    } else {\
-        (VAR) = __pyx_dict_cached_value = (LOOKUP);\
-        __pyx_dict_version = __PYX_GET_DICT_VERSION(DICT);\
-    }\
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj);
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj);
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version);
-#else
-#define __PYX_GET_DICT_VERSION(dict)  (0)
-#define __PYX_UPDATE_DICT_CACHE(dict, value, cache_var, version_var)
-#define __PYX_PY_DICT_LOOKUP_IF_MODIFIED(VAR, DICT, LOOKUP)  (VAR) = (LOOKUP);
-#endif
 
 /* PyThreadStateGet.proto */
 #if CYTHON_FAST_THREAD_STATE
@@ -1221,135 +1239,258 @@ static int __Pyx_check_binary_version(void);
 static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
-/* Module declarations from 'EnvMap' */
-#define __Pyx_MODULE_NAME "EnvMap"
-extern int __pyx_module_is_main_EnvMap;
-int __pyx_module_is_main_EnvMap = 0;
+/* Module declarations from 'Bouy_List' */
+#define __Pyx_MODULE_NAME "Bouy_List"
+extern int __pyx_module_is_main_Bouy_List;
+int __pyx_module_is_main_Bouy_List = 0;
 
-/* Implementation of 'EnvMap' */
-static PyObject *__pyx_builtin_enumerate;
-static PyObject *__pyx_builtin_sum;
-static const char __pyx_k_i[] = "i";
-static const char __pyx_k_j[] = "j";
-static const char __pyx_k_x[] = "x";
-static const char __pyx_k_y[] = "y";
+/* Implementation of 'Bouy_List' */
+static const char __pyx_k_x[] = "_x";
+static const char __pyx_k_y[] = "_y";
+static const char __pyx_k_arr[] = "arr";
 static const char __pyx_k_doc[] = "__doc__";
-static const char __pyx_k_red[] = "red";
-static const char __pyx_k_row[] = "row";
-static const char __pyx_k_sum[] = "sum";
+static const char __pyx_k_Buoy[] = "Buoy";
+static const char __pyx_k_buoy[] = "buoy";
+static const char __pyx_k_hits[] = "_hits";
 static const char __pyx_k_init[] = "__init__";
+static const char __pyx_k_item[] = "item";
 static const char __pyx_k_main[] = "__main__";
 static const char __pyx_k_name[] = "__name__";
+static const char __pyx_k_none[] = "none";
 static const char __pyx_k_self[] = "self";
 static const char __pyx_k_test[] = "__test__";
-static const char __pyx_k_count[] = "count";
-static const char __pyx_k_green[] = "green";
-static const char __pyx_k_image[] = "image";
-static const char __pyx_k_pixel[] = "pixel";
-static const char __pyx_k_EnvMap[] = "EnvMap";
+static const char __pyx_k_color[] = "_color";
+static const char __pyx_k_found[] = "found";
 static const char __pyx_k_append[] = "append";
 static const char __pyx_k_module[] = "__module__";
-static const char __pyx_k_offset[] = "_offset";
-static const char __pyx_k_get_map[] = "get_map";
+static const char __pyx_k_thresh[] = "thresh";
 static const char __pyx_k_prepare[] = "__prepare__";
-static const char __pyx_k_curr_map[] = "_curr_map";
+static const char __pyx_k_BuoyList[] = "BuoyList";
+static const char __pyx_k_add_buoy[] = "add_buoy";
+static const char __pyx_k_get_hits[] = "get_hits";
 static const char __pyx_k_qualname[] = "__qualname__";
-static const char __pyx_k_buoy_data[] = "_buoy_data";
-static const char __pyx_k_enumerate[] = "enumerate";
+static const char __pyx_k_Bouy_List[] = "Bouy_List";
+static const char __pyx_k_buoy_list[] = "_buoy_list";
 static const char __pyx_k_get_buoys[] = "get_buoys";
-static const char __pyx_k_log_buoys[] = "__log_buoys";
 static const char __pyx_k_metaclass[] = "__metaclass__";
-static const char __pyx_k_EnvMap_pyx[] = "EnvMap.pyx";
-static const char __pyx_k_odom_coords[] = "odom_coords";
-static const char __pyx_k_EnvMap___init[] = "EnvMap.__init__";
-static const char __pyx_k_EnvMap_get_map[] = "EnvMap.get_map";
-static const char __pyx_k_EnvMap_get_buoys[] = "EnvMap.get_buoys";
-static const char __pyx_k_EnvMap__log_buoys[] = "_EnvMap__log_buoys";
-static const char __pyx_k_EnvMap___log_buoys[] = "EnvMap.__log_buoys";
+static const char __pyx_k_Buoy___init[] = "Buoy.__init__";
+static const char __pyx_k_Bouy_List_pyx[] = "Bouy_List.pyx";
+static const char __pyx_k_Buoy_get_hits[] = "Buoy.get_hits";
+static const char __pyx_k_attribute_arr[] = "attribute_arr";
+static const char __pyx_k_confirm_thresh[] = "_confirm_thresh";
+static const char __pyx_k_get_attributes[] = "get_attributes";
+static const char __pyx_k_increment_hits[] = "increment_hits";
+static const char __pyx_k_set_attributes[] = "__set_attributes";
+static const char __pyx_k_BuoyList___init[] = "BuoyList.__init__";
+static const char __pyx_k_BuoyList_add_buoy[] = "BuoyList.add_buoy";
+static const char __pyx_k_BuoyList_get_buoys[] = "BuoyList.get_buoys";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static PyObject *__pyx_n_s_EnvMap;
-static PyObject *__pyx_n_s_EnvMap___init;
-static PyObject *__pyx_n_s_EnvMap___log_buoys;
-static PyObject *__pyx_n_s_EnvMap__log_buoys;
-static PyObject *__pyx_n_s_EnvMap_get_buoys;
-static PyObject *__pyx_n_s_EnvMap_get_map;
-static PyObject *__pyx_kp_s_EnvMap_pyx;
+static const char __pyx_k_Buoy_get_attributes[] = "Buoy.get_attributes";
+static const char __pyx_k_Buoy_increment_hits[] = "Buoy.increment_hits";
+static const char __pyx_k_get_confirmed_buoys[] = "get_confirmed_buoys";
+static const char __pyx_k_Buoy__set_attributes[] = "_Buoy__set_attributes";
+static const char __pyx_k_Buoy___set_attributes[] = "Buoy.__set_attributes";
+static const char __pyx_k_get_confirmation_threshold[] = "get_confirmation_threshold";
+static const char __pyx_k_set_confirmation_threshold[] = "set_confirmation_threshold";
+static const char __pyx_k_BuoyList_get_confirmed_buoys[] = "BuoyList.get_confirmed_buoys";
+static const char __pyx_k_BuoyList_get_confirmation_thresh[] = "BuoyList.get_confirmation_threshold";
+static const char __pyx_k_BuoyList_set_confirmation_thresh[] = "BuoyList.set_confirmation_threshold";
+static PyObject *__pyx_n_s_Bouy_List;
+static PyObject *__pyx_kp_s_Bouy_List_pyx;
+static PyObject *__pyx_n_s_Buoy;
+static PyObject *__pyx_n_s_BuoyList;
+static PyObject *__pyx_n_s_BuoyList___init;
+static PyObject *__pyx_n_s_BuoyList_add_buoy;
+static PyObject *__pyx_n_s_BuoyList_get_buoys;
+static PyObject *__pyx_n_s_BuoyList_get_confirmation_thresh;
+static PyObject *__pyx_n_s_BuoyList_get_confirmed_buoys;
+static PyObject *__pyx_n_s_BuoyList_set_confirmation_thresh;
+static PyObject *__pyx_n_s_Buoy___init;
+static PyObject *__pyx_n_s_Buoy___set_attributes;
+static PyObject *__pyx_n_s_Buoy__set_attributes;
+static PyObject *__pyx_n_s_Buoy_get_attributes;
+static PyObject *__pyx_n_s_Buoy_get_hits;
+static PyObject *__pyx_n_s_Buoy_increment_hits;
+static PyObject *__pyx_n_s_add_buoy;
 static PyObject *__pyx_n_s_append;
-static PyObject *__pyx_n_s_buoy_data;
+static PyObject *__pyx_n_s_arr;
+static PyObject *__pyx_n_s_attribute_arr;
+static PyObject *__pyx_n_s_buoy;
+static PyObject *__pyx_n_s_buoy_list;
 static PyObject *__pyx_n_s_cline_in_traceback;
-static PyObject *__pyx_n_s_count;
-static PyObject *__pyx_n_s_curr_map;
+static PyObject *__pyx_n_s_color;
+static PyObject *__pyx_n_s_confirm_thresh;
 static PyObject *__pyx_n_s_doc;
-static PyObject *__pyx_n_s_enumerate;
+static PyObject *__pyx_n_s_found;
+static PyObject *__pyx_n_s_get_attributes;
 static PyObject *__pyx_n_s_get_buoys;
-static PyObject *__pyx_n_s_get_map;
-static PyObject *__pyx_n_s_green;
-static PyObject *__pyx_n_s_i;
-static PyObject *__pyx_n_s_image;
+static PyObject *__pyx_n_s_get_confirmation_threshold;
+static PyObject *__pyx_n_s_get_confirmed_buoys;
+static PyObject *__pyx_n_s_get_hits;
+static PyObject *__pyx_n_s_hits;
+static PyObject *__pyx_n_s_increment_hits;
 static PyObject *__pyx_n_s_init;
-static PyObject *__pyx_n_s_j;
-static PyObject *__pyx_n_s_log_buoys;
+static PyObject *__pyx_n_s_item;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_odom_coords;
-static PyObject *__pyx_n_s_offset;
-static PyObject *__pyx_n_s_pixel;
+static PyObject *__pyx_n_s_none;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_qualname;
-static PyObject *__pyx_n_s_red;
-static PyObject *__pyx_n_s_row;
 static PyObject *__pyx_n_s_self;
-static PyObject *__pyx_n_s_sum;
+static PyObject *__pyx_n_s_set_attributes;
+static PyObject *__pyx_n_s_set_confirmation_threshold;
 static PyObject *__pyx_n_s_test;
+static PyObject *__pyx_n_s_thresh;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_y;
-static PyObject *__pyx_pf_6EnvMap_6EnvMap___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_image, PyObject *__pyx_v_odom_coords); /* proto */
-static PyObject *__pyx_pf_6EnvMap_6EnvMap_2__log_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6EnvMap_6EnvMap_4get_map(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_6EnvMap_6EnvMap_6get_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_4Buoy___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_2__init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attribute_arr); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_4__set_attributes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attribute_arr); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_6increment_hits(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_8get_attributes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_10get_hits(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_buoy); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_4get_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_6set_confirmation_threshold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_thresh); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_8get_confirmation_threshold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
-static PyObject *__pyx_int_30;
-static PyObject *__pyx_int_50;
+static PyObject *__pyx_int_8;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__5;
 static PyObject *__pyx_tuple__7;
+static PyObject *__pyx_tuple__9;
+static PyObject *__pyx_tuple__11;
+static PyObject *__pyx_tuple__13;
+static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__17;
+static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_codeobj__2;
 static PyObject *__pyx_codeobj__4;
 static PyObject *__pyx_codeobj__6;
 static PyObject *__pyx_codeobj__8;
+static PyObject *__pyx_codeobj__10;
+static PyObject *__pyx_codeobj__12;
+static PyObject *__pyx_codeobj__14;
+static PyObject *__pyx_codeobj__16;
+static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__24;
 /* Late includes */
 
-/* "EnvMap.pyx":2
- * class EnvMap:
- *     def __init__(self, image, odom_coords):             # <<<<<<<<<<<<<<
- *         """
- *         Initializes the class variables and finds any buoys in the given map image
+/* "Bouy_List.pyx":2
+ * class Buoy:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._y = 0
+ *         self._x = 0
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_6EnvMap_6EnvMap___init__[] = "\n        Initializes the class variables and finds any buoys in the given map image\n\n        :param image: A 2D list containing the current data in the map\n        :param odom_coords: The position of the odometry reference on the map image\n        ";
-static PyMethodDef __pyx_mdef_6EnvMap_6EnvMap_1__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_6EnvMap_6EnvMap_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_6EnvMap_6EnvMap___init__};
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_1__init__(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_4Buoy_1__init__ = {"__init__", (PyCFunction)__pyx_pw_9Bouy_List_4Buoy_1__init__, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_1__init__(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_4Buoy___init__(__pyx_self, ((PyObject *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_4Buoy___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "Bouy_List.pyx":3
+ * class Buoy:
+ *     def __init__(self):
+ *         self._y = 0             # <<<<<<<<<<<<<<
+ *         self._x = 0
+ *         self._color = "none"
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_y, __pyx_int_0) < 0) __PYX_ERR(0, 3, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":4
+ *     def __init__(self):
+ *         self._y = 0
+ *         self._x = 0             # <<<<<<<<<<<<<<
+ *         self._color = "none"
+ *         self._hits = 0
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_x, __pyx_int_0) < 0) __PYX_ERR(0, 4, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":5
+ *         self._y = 0
+ *         self._x = 0
+ *         self._color = "none"             # <<<<<<<<<<<<<<
+ *         self._hits = 0
+ * 
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color, __pyx_n_s_none) < 0) __PYX_ERR(0, 5, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":6
+ *         self._x = 0
+ *         self._color = "none"
+ *         self._hits = 0             # <<<<<<<<<<<<<<
+ * 
+ *     def __init__(self, attribute_arr):
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_hits, __pyx_int_0) < 0) __PYX_ERR(0, 6, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":2
+ * class Buoy:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._y = 0
+ *         self._x = 0
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("Bouy_List.Buoy.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":8
+ *         self._hits = 0
+ * 
+ *     def __init__(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_3__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_4Buoy_3__init__ = {"__init__", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9Bouy_List_4Buoy_3__init__, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_3__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
-  PyObject *__pyx_v_image = 0;
-  PyObject *__pyx_v_odom_coords = 0;
+  PyObject *__pyx_v_attribute_arr = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_image,&__pyx_n_s_odom_coords,0};
-    PyObject* values[3] = {0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_attribute_arr,0};
+    PyObject* values[2] = {0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        CYTHON_FALLTHROUGH;
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
         CYTHON_FALLTHROUGH;
         case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
@@ -1364,115 +1505,284 @@ static PyObject *__pyx_pw_6EnvMap_6EnvMap_1__init__(PyObject *__pyx_self, PyObje
         else goto __pyx_L5_argtuple_error;
         CYTHON_FALLTHROUGH;
         case  1:
-        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_image)) != 0)) kw_args--;
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_attribute_arr)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 1); __PYX_ERR(0, 2, __pyx_L3_error)
-        }
-        CYTHON_FALLTHROUGH;
-        case  2:
-        if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_odom_coords)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, 2); __PYX_ERR(0, 2, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, 1); __PYX_ERR(0, 8, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 2, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__init__") < 0)) __PYX_ERR(0, 8, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
     }
     __pyx_v_self = values[0];
-    __pyx_v_image = values[1];
-    __pyx_v_odom_coords = values[2];
+    __pyx_v_attribute_arr = values[1];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 2, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__init__", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 8, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("EnvMap.EnvMap.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Bouy_List.Buoy.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_6EnvMap_6EnvMap___init__(__pyx_self, __pyx_v_self, __pyx_v_image, __pyx_v_odom_coords);
+  __pyx_r = __pyx_pf_9Bouy_List_4Buoy_2__init__(__pyx_self, __pyx_v_self, __pyx_v_attribute_arr);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6EnvMap_6EnvMap___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_image, PyObject *__pyx_v_odom_coords) {
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_2__init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attribute_arr) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "EnvMap.pyx":9
- *         :param odom_coords: The position of the odometry reference on the map image
- *         """
- *         self._offset = odom_coords             # <<<<<<<<<<<<<<
- *         self._curr_map = image
- *         self._buoy_data = []
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_offset, __pyx_v_odom_coords) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
-
-  /* "EnvMap.pyx":10
- *         """
- *         self._offset = odom_coords
- *         self._curr_map = image             # <<<<<<<<<<<<<<
- *         self._buoy_data = []
- *         self.__log_buoys()
- */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_curr_map, __pyx_v_image) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
-
-  /* "EnvMap.pyx":11
- *         self._offset = odom_coords
- *         self._curr_map = image
- *         self._buoy_data = []             # <<<<<<<<<<<<<<
- *         self.__log_buoys()
+  /* "Bouy_List.pyx":9
  * 
+ *     def __init__(self, attribute_arr):
+ *         self._y = attribute_arr[0]             # <<<<<<<<<<<<<<
+ *         self._x = attribute_arr[1]
+ *         self._color = attribute_arr[2]
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_attribute_arr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_buoy_data, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_y, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "EnvMap.pyx":12
- *         self._curr_map = image
- *         self._buoy_data = []
- *         self.__log_buoys()             # <<<<<<<<<<<<<<
+  /* "Bouy_List.pyx":10
+ *     def __init__(self, attribute_arr):
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]             # <<<<<<<<<<<<<<
+ *         self._color = attribute_arr[2]
  * 
- *     def __log_buoys(self):
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_EnvMap__log_buoys); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 12, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_3)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_3);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_attribute_arr, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_x, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":11
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
+ *         self._color = attribute_arr[2]             # <<<<<<<<<<<<<<
+ * 
+ *     def __set_attributes(self, attribute_arr):
+ */
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_attribute_arr, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color, __pyx_t_1) < 0) __PYX_ERR(0, 11, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":8
+ *         self._hits = 0
+ * 
+ *     def __init__(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("Bouy_List.Buoy.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":13
+ *         self._color = attribute_arr[2]
+ * 
+ *     def __set_attributes(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_5__set_attributes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_4Buoy_5__set_attributes = {"__set_attributes", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9Bouy_List_4Buoy_5__set_attributes, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_5__set_attributes(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_attribute_arr = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set_attributes (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_attribute_arr,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_attribute_arr)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__set_attributes", 1, 2, 2, 1); __PYX_ERR(0, 13, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__set_attributes") < 0)) __PYX_ERR(0, 13, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
     }
+    __pyx_v_self = values[0];
+    __pyx_v_attribute_arr = values[1];
   }
-  __pyx_t_1 = (__pyx_t_3) ? __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3) : __Pyx_PyObject_CallNoArg(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 12, __pyx_L1_error)
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__set_attributes", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 13, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("Bouy_List.Buoy.__set_attributes", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_9Bouy_List_4Buoy_4__set_attributes(__pyx_self, __pyx_v_self, __pyx_v_attribute_arr);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_4__set_attributes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_attribute_arr) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__set_attributes", 0);
+
+  /* "Bouy_List.pyx":14
+ * 
+ *     def __set_attributes(self, attribute_arr):
+ *         self._y = attribute_arr[0]             # <<<<<<<<<<<<<<
+ *         self._x = attribute_arr[1]
+ *         self._color = attribute_arr[2]
+ */
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_attribute_arr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_y, __pyx_t_1) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "EnvMap.pyx":2
- * class EnvMap:
- *     def __init__(self, image, odom_coords):             # <<<<<<<<<<<<<<
- *         """
- *         Initializes the class variables and finds any buoys in the given map image
+  /* "Bouy_List.pyx":15
+ *     def __set_attributes(self, attribute_arr):
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]             # <<<<<<<<<<<<<<
+ *         self._color = attribute_arr[2]
+ * 
+ */
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_attribute_arr, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_x, __pyx_t_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":16
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
+ *         self._color = attribute_arr[2]             # <<<<<<<<<<<<<<
+ * 
+ *     def increment_hits(self):
+ */
+  __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_attribute_arr, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_color, __pyx_t_1) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":13
+ *         self._color = attribute_arr[2]
+ * 
+ *     def __set_attributes(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("Bouy_List.Buoy.__set_attributes", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":18
+ *         self._color = attribute_arr[2]
+ * 
+ *     def increment_hits(self):             # <<<<<<<<<<<<<<
+ *         self._hits = self._hits + 1
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_7increment_hits(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_4Buoy_7increment_hits = {"increment_hits", (PyCFunction)__pyx_pw_9Bouy_List_4Buoy_7increment_hits, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_7increment_hits(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("increment_hits (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_4Buoy_6increment_hits(__pyx_self, ((PyObject *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_6increment_hits(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("increment_hits", 0);
+
+  /* "Bouy_List.pyx":19
+ * 
+ *     def increment_hits(self):
+ *         self._hits = self._hits + 1             # <<<<<<<<<<<<<<
+ * 
+ *     def get_attributes(self):
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_hits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_hits, __pyx_t_2) < 0) __PYX_ERR(0, 19, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":18
+ *         self._color = attribute_arr[2]
+ * 
+ *     def increment_hits(self):             # <<<<<<<<<<<<<<
+ *         self._hits = self._hits + 1
+ * 
  */
 
   /* function exit code */
@@ -1481,8 +1791,7 @@ static PyObject *__pyx_pf_6EnvMap_6EnvMap___init__(CYTHON_UNUSED PyObject *__pyx
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("EnvMap.EnvMap.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Bouy_List.Buoy.increment_hits", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -1490,522 +1799,142 @@ static PyObject *__pyx_pf_6EnvMap_6EnvMap___init__(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "EnvMap.pyx":14
- *         self.__log_buoys()
+/* "Bouy_List.pyx":21
+ *         self._hits = self._hits + 1
  * 
- *     def __log_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Logs the current position and color of any buoys in the map
+ *     def get_attributes(self):             # <<<<<<<<<<<<<<
+ *         return [self._y, self._x, self._color]
+ * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_3__log_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_6EnvMap_6EnvMap_2__log_buoys[] = "\n        Logs the current position and color of any buoys in the map\n\n        :param image: A 2D list containing the current data in the map\n        :return: None\n        ";
-static PyMethodDef __pyx_mdef_6EnvMap_6EnvMap_3__log_buoys = {"__log_buoys", (PyCFunction)__pyx_pw_6EnvMap_6EnvMap_3__log_buoys, METH_O, __pyx_doc_6EnvMap_6EnvMap_2__log_buoys};
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_3__log_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_9get_attributes(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_4Buoy_9get_attributes = {"get_attributes", (PyCFunction)__pyx_pw_9Bouy_List_4Buoy_9get_attributes, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_9get_attributes(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__log_buoys (wrapper)", 0);
-  __pyx_r = __pyx_pf_6EnvMap_6EnvMap_2__log_buoys(__pyx_self, ((PyObject *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("get_attributes (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_4Buoy_8get_attributes(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6EnvMap_6EnvMap_2__log_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
-  PyObject *__pyx_v_i = NULL;
-  PyObject *__pyx_v_row = NULL;
-  PyObject *__pyx_v_j = NULL;
-  PyObject *__pyx_v_pixel = NULL;
-  PyObject *__pyx_v_y = NULL;
-  PyObject *__pyx_v_x = NULL;
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_8get_attributes(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  Py_ssize_t __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
-  PyObject *(*__pyx_t_10)(PyObject *);
-  PyObject *__pyx_t_11 = NULL;
-  int __pyx_t_12;
-  PyObject *__pyx_t_13 = NULL;
-  PyObject *__pyx_t_14 = NULL;
-  __Pyx_RefNannySetupContext("__log_buoys", 0);
+  PyObject *__pyx_t_4 = NULL;
+  __Pyx_RefNannySetupContext("get_attributes", 0);
 
-  /* "EnvMap.pyx":21
- *         :return: None
- *         """
- *         for i, row in enumerate(self._curr_map):             # <<<<<<<<<<<<<<
- *             if sum(row)/len(row) > 0:
- *                 for j, pixel in enumerate(row):
+  /* "Bouy_List.pyx":22
+ * 
+ *     def get_attributes(self):
+ *         return [self._y, self._x, self._color]             # <<<<<<<<<<<<<<
+ * 
+ *     def get_hits(self):
  */
-  __Pyx_INCREF(__pyx_int_0);
-  __pyx_t_1 = __pyx_int_0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_curr_map); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_y); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_x); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
-    __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-  } else {
-    __pyx_t_4 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 21, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 21, __pyx_L1_error)
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  for (;;) {
-    if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_3))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 21, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
-        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) __PYX_ERR(0, 21, __pyx_L1_error)
-        #else
-        __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        #endif
-      }
-    } else {
-      __pyx_t_2 = __pyx_t_5(__pyx_t_3);
-      if (unlikely(!__pyx_t_2)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 21, __pyx_L1_error)
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_2);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_row, __pyx_t_2);
-    __pyx_t_2 = 0;
-    __Pyx_INCREF(__pyx_t_1);
-    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-    __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_1, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_1);
-    __pyx_t_1 = __pyx_t_2;
-    __pyx_t_2 = 0;
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_color); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyList_New(3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 22, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_2);
+  PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyList_SET_ITEM(__pyx_t_4, 2, __pyx_t_3);
+  __pyx_t_1 = 0;
+  __pyx_t_2 = 0;
+  __pyx_t_3 = 0;
+  __pyx_r = __pyx_t_4;
+  __pyx_t_4 = 0;
+  goto __pyx_L0;
 
-    /* "EnvMap.pyx":22
- *         """
- *         for i, row in enumerate(self._curr_map):
- *             if sum(row)/len(row) > 0:             # <<<<<<<<<<<<<<
- *                 for j, pixel in enumerate(row):
- *                     if pixel == 30:
- */
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_builtin_sum, __pyx_v_row); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 22, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_6 = PyObject_Length(__pyx_v_row); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 22, __pyx_L1_error)
-    __pyx_t_7 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 22, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_8 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_7); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 22, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_8, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 22, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 22, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (__pyx_t_9) {
-
-      /* "EnvMap.pyx":23
- *         for i, row in enumerate(self._curr_map):
- *             if sum(row)/len(row) > 0:
- *                 for j, pixel in enumerate(row):             # <<<<<<<<<<<<<<
- *                     if pixel == 30:
- *                         y = i - self._offset[0]
- */
-      __Pyx_INCREF(__pyx_int_0);
-      __pyx_t_7 = __pyx_int_0;
-      if (likely(PyList_CheckExact(__pyx_v_row)) || PyTuple_CheckExact(__pyx_v_row)) {
-        __pyx_t_8 = __pyx_v_row; __Pyx_INCREF(__pyx_t_8); __pyx_t_6 = 0;
-        __pyx_t_10 = NULL;
-      } else {
-        __pyx_t_6 = -1; __pyx_t_8 = PyObject_GetIter(__pyx_v_row); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 23, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_10 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 23, __pyx_L1_error)
-      }
-      for (;;) {
-        if (likely(!__pyx_t_10)) {
-          if (likely(PyList_CheckExact(__pyx_t_8))) {
-            if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_8)) break;
-            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_2 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 23, __pyx_L1_error)
-            #else
-            __pyx_t_2 = PySequence_ITEM(__pyx_t_8, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            #endif
-          } else {
-            if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_8)) break;
-            #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-            __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_6); __Pyx_INCREF(__pyx_t_2); __pyx_t_6++; if (unlikely(0 < 0)) __PYX_ERR(0, 23, __pyx_L1_error)
-            #else
-            __pyx_t_2 = PySequence_ITEM(__pyx_t_8, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
-            __Pyx_GOTREF(__pyx_t_2);
-            #endif
-          }
-        } else {
-          __pyx_t_2 = __pyx_t_10(__pyx_t_8);
-          if (unlikely(!__pyx_t_2)) {
-            PyObject* exc_type = PyErr_Occurred();
-            if (exc_type) {
-              if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-              else __PYX_ERR(0, 23, __pyx_L1_error)
-            }
-            break;
-          }
-          __Pyx_GOTREF(__pyx_t_2);
-        }
-        __Pyx_XDECREF_SET(__pyx_v_pixel, __pyx_t_2);
-        __pyx_t_2 = 0;
-        __Pyx_INCREF(__pyx_t_7);
-        __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_7);
-        __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_t_7, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 23, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_7);
-        __pyx_t_7 = __pyx_t_2;
-        __pyx_t_2 = 0;
-
-        /* "EnvMap.pyx":24
- *             if sum(row)/len(row) > 0:
- *                 for j, pixel in enumerate(row):
- *                     if pixel == 30:             # <<<<<<<<<<<<<<
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]
- */
-        __pyx_t_2 = __Pyx_PyInt_EqObjC(__pyx_v_pixel, __pyx_int_30, 30, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 24, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        if (__pyx_t_9) {
-
-          /* "EnvMap.pyx":25
- *                 for j, pixel in enumerate(row):
- *                     if pixel == 30:
- *                         y = i - self._offset[0]             # <<<<<<<<<<<<<<
- *                         x = j - self._offset[1]
- *                         self._buoy_data.append([y, x, "green"])
- */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_2, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 25, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyNumber_Subtract(__pyx_v_i, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 25, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_2);
-          __pyx_t_2 = 0;
-
-          /* "EnvMap.pyx":26
- *                     if pixel == 30:
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]             # <<<<<<<<<<<<<<
- *                         self._buoy_data.append([y, x, "green"])
- *                     elif pixel == 50:
- */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_offset); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_11 = __Pyx_GetItemInt(__pyx_t_2, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 26, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyNumber_Subtract(__pyx_v_j, __pyx_t_11); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 26, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_x, __pyx_t_2);
-          __pyx_t_2 = 0;
-
-          /* "EnvMap.pyx":27
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]
- *                         self._buoy_data.append([y, x, "green"])             # <<<<<<<<<<<<<<
- *                     elif pixel == 50:
- *                         y = i - self._offset[0]
- */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 27, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_11 = PyList_New(3); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 27, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_INCREF(__pyx_v_y);
-          __Pyx_GIVEREF(__pyx_v_y);
-          PyList_SET_ITEM(__pyx_t_11, 0, __pyx_v_y);
-          __Pyx_INCREF(__pyx_v_x);
-          __Pyx_GIVEREF(__pyx_v_x);
-          PyList_SET_ITEM(__pyx_t_11, 1, __pyx_v_x);
-          __Pyx_INCREF(__pyx_n_s_green);
-          __Pyx_GIVEREF(__pyx_n_s_green);
-          PyList_SET_ITEM(__pyx_t_11, 2, __pyx_n_s_green);
-          __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_2, __pyx_t_11); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 27, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-          /* "EnvMap.pyx":24
- *             if sum(row)/len(row) > 0:
- *                 for j, pixel in enumerate(row):
- *                     if pixel == 30:             # <<<<<<<<<<<<<<
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]
- */
-          goto __pyx_L8;
-        }
-
-        /* "EnvMap.pyx":28
- *                         x = j - self._offset[1]
- *                         self._buoy_data.append([y, x, "green"])
- *                     elif pixel == 50:             # <<<<<<<<<<<<<<
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]
- */
-        __pyx_t_11 = __Pyx_PyInt_EqObjC(__pyx_v_pixel, __pyx_int_50, 50, 0); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 28, __pyx_L1_error)
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_11); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 28, __pyx_L1_error)
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        if (__pyx_t_9) {
-
-          /* "EnvMap.pyx":29
- *                         self._buoy_data.append([y, x, "green"])
- *                     elif pixel == 50:
- *                         y = i - self._offset[0]             # <<<<<<<<<<<<<<
- *                         x = j - self._offset[1]
- *                         self._buoy_data.count([y,x,"red"])
- */
-          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_offset); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 29, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_11, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_11 = PyNumber_Subtract(__pyx_v_i, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 29, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_y, __pyx_t_11);
-          __pyx_t_11 = 0;
-
-          /* "EnvMap.pyx":30
- *                     elif pixel == 50:
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]             # <<<<<<<<<<<<<<
- *                         self._buoy_data.count([y,x,"red"])
- *                         self._buoy_data.append([y, x, "red"])
- */
-          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_offset); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 30, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_2 = __Pyx_GetItemInt(__pyx_t_11, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 30, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __pyx_t_11 = PyNumber_Subtract(__pyx_v_j, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 30, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_x, __pyx_t_11);
-          __pyx_t_11 = 0;
-
-          /* "EnvMap.pyx":31
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]
- *                         self._buoy_data.count([y,x,"red"])             # <<<<<<<<<<<<<<
- *                         self._buoy_data.append([y, x, "red"])
+  /* "Bouy_List.pyx":21
+ *         self._hits = self._hits + 1
  * 
- */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_data); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_count); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 31, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 31, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_INCREF(__pyx_v_y);
-          __Pyx_GIVEREF(__pyx_v_y);
-          PyList_SET_ITEM(__pyx_t_2, 0, __pyx_v_y);
-          __Pyx_INCREF(__pyx_v_x);
-          __Pyx_GIVEREF(__pyx_v_x);
-          PyList_SET_ITEM(__pyx_t_2, 1, __pyx_v_x);
-          __Pyx_INCREF(__pyx_n_s_red);
-          __Pyx_GIVEREF(__pyx_n_s_red);
-          PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_red);
-          __pyx_t_14 = NULL;
-          if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_13))) {
-            __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_13);
-            if (likely(__pyx_t_14)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_13);
-              __Pyx_INCREF(__pyx_t_14);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_13, function);
-            }
-          }
-          __pyx_t_11 = (__pyx_t_14) ? __Pyx_PyObject_Call2Args(__pyx_t_13, __pyx_t_14, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_13, __pyx_t_2);
-          __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 31, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-          /* "EnvMap.pyx":32
- *                         x = j - self._offset[1]
- *                         self._buoy_data.count([y,x,"red"])
- *                         self._buoy_data.append([y, x, "red"])             # <<<<<<<<<<<<<<
+ *     def get_attributes(self):             # <<<<<<<<<<<<<<
+ *         return [self._y, self._x, self._color]
  * 
- *     def get_map(self):
- */
-          __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_data); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 32, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_11);
-          __pyx_t_13 = PyList_New(3); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 32, __pyx_L1_error)
-          __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_INCREF(__pyx_v_y);
-          __Pyx_GIVEREF(__pyx_v_y);
-          PyList_SET_ITEM(__pyx_t_13, 0, __pyx_v_y);
-          __Pyx_INCREF(__pyx_v_x);
-          __Pyx_GIVEREF(__pyx_v_x);
-          PyList_SET_ITEM(__pyx_t_13, 1, __pyx_v_x);
-          __Pyx_INCREF(__pyx_n_s_red);
-          __Pyx_GIVEREF(__pyx_n_s_red);
-          PyList_SET_ITEM(__pyx_t_13, 2, __pyx_n_s_red);
-          __pyx_t_12 = __Pyx_PyObject_Append(__pyx_t_11, __pyx_t_13); if (unlikely(__pyx_t_12 == ((int)-1))) __PYX_ERR(0, 32, __pyx_L1_error)
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-
-          /* "EnvMap.pyx":28
- *                         x = j - self._offset[1]
- *                         self._buoy_data.append([y, x, "green"])
- *                     elif pixel == 50:             # <<<<<<<<<<<<<<
- *                         y = i - self._offset[0]
- *                         x = j - self._offset[1]
- */
-        }
-        __pyx_L8:;
-
-        /* "EnvMap.pyx":23
- *         for i, row in enumerate(self._curr_map):
- *             if sum(row)/len(row) > 0:
- *                 for j, pixel in enumerate(row):             # <<<<<<<<<<<<<<
- *                     if pixel == 30:
- *                         y = i - self._offset[0]
- */
-      }
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-      /* "EnvMap.pyx":22
- *         """
- *         for i, row in enumerate(self._curr_map):
- *             if sum(row)/len(row) > 0:             # <<<<<<<<<<<<<<
- *                 for j, pixel in enumerate(row):
- *                     if pixel == 30:
- */
-    }
-
-    /* "EnvMap.pyx":21
- *         :return: None
- *         """
- *         for i, row in enumerate(self._curr_map):             # <<<<<<<<<<<<<<
- *             if sum(row)/len(row) > 0:
- *                 for j, pixel in enumerate(row):
- */
-  }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "EnvMap.pyx":14
- *         self.__log_buoys()
- * 
- *     def __log_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Logs the current position and color of any buoys in the map
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_XDECREF(__pyx_t_11);
-  __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_XDECREF(__pyx_t_14);
-  __Pyx_AddTraceback("EnvMap.EnvMap.__log_buoys", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_AddTraceback("Bouy_List.Buoy.get_attributes", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_XDECREF(__pyx_v_row);
-  __Pyx_XDECREF(__pyx_v_j);
-  __Pyx_XDECREF(__pyx_v_pixel);
-  __Pyx_XDECREF(__pyx_v_y);
-  __Pyx_XDECREF(__pyx_v_x);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "EnvMap.pyx":34
- *                         self._buoy_data.append([y, x, "red"])
+/* "Bouy_List.pyx":24
+ *         return [self._y, self._x, self._color]
  * 
- *     def get_map(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the map stored in this instance of the class
+ *     def get_hits(self):             # <<<<<<<<<<<<<<
+ *         return self._hits
+ * 
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_5get_map(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_6EnvMap_6EnvMap_4get_map[] = "\n        Returns the map stored in this instance of the class\n\n        :return: A 2D list containing the current data in the map\n        ";
-static PyMethodDef __pyx_mdef_6EnvMap_6EnvMap_5get_map = {"get_map", (PyCFunction)__pyx_pw_6EnvMap_6EnvMap_5get_map, METH_O, __pyx_doc_6EnvMap_6EnvMap_4get_map};
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_5get_map(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_11get_hits(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_4Buoy_11get_hits = {"get_hits", (PyCFunction)__pyx_pw_9Bouy_List_4Buoy_11get_hits, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_4Buoy_11get_hits(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("get_map (wrapper)", 0);
-  __pyx_r = __pyx_pf_6EnvMap_6EnvMap_4get_map(__pyx_self, ((PyObject *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("get_hits (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_4Buoy_10get_hits(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6EnvMap_6EnvMap_4get_map(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_9Bouy_List_4Buoy_10get_hits(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("get_map", 0);
+  __Pyx_RefNannySetupContext("get_hits", 0);
 
-  /* "EnvMap.pyx":40
- *         :return: A 2D list containing the current data in the map
- *         """
- *         return self._curr_map             # <<<<<<<<<<<<<<
+  /* "Bouy_List.pyx":25
  * 
- *     def get_buoys(self):
+ *     def get_hits(self):
+ *         return self._hits             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_curr_map); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_hits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 25, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "EnvMap.pyx":34
- *                         self._buoy_data.append([y, x, "red"])
+  /* "Bouy_List.pyx":24
+ *         return [self._y, self._x, self._color]
  * 
- *     def get_map(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the map stored in this instance of the class
+ *     def get_hits(self):             # <<<<<<<<<<<<<<
+ *         return self._hits
+ * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("EnvMap.EnvMap.get_map", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Bouy_List.Buoy.get_hits", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2013,61 +1942,842 @@ static PyObject *__pyx_pf_6EnvMap_6EnvMap_4get_map(CYTHON_UNUSED PyObject *__pyx
   return __pyx_r;
 }
 
-/* "EnvMap.pyx":42
- *         return self._curr_map
+/* "Bouy_List.pyx":29
  * 
- *     def get_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the set of all buoys in the form of (y, x, color)
+ * class BuoyList:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._buoy_list = []
+ *         self._confirm_thresh = 8
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_7get_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_6EnvMap_6EnvMap_6get_buoys[] = "\n        Returns the set of all buoys in the form of (y, x, color)\n\n        :return: A list of lists, where each sublist is the coordinates and color of a buoy\n        ";
-static PyMethodDef __pyx_mdef_6EnvMap_6EnvMap_7get_buoys = {"get_buoys", (PyCFunction)__pyx_pw_6EnvMap_6EnvMap_7get_buoys, METH_O, __pyx_doc_6EnvMap_6EnvMap_6get_buoys};
-static PyObject *__pyx_pw_6EnvMap_6EnvMap_7get_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_1__init__(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_8BuoyList_1__init__ = {"__init__", (PyCFunction)__pyx_pw_9Bouy_List_8BuoyList_1__init__, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_1__init__(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("get_buoys (wrapper)", 0);
-  __pyx_r = __pyx_pf_6EnvMap_6EnvMap_6get_buoys(__pyx_self, ((PyObject *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_8BuoyList___init__(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_6EnvMap_6EnvMap_6get_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("__init__", 0);
+
+  /* "Bouy_List.pyx":30
+ * class BuoyList:
+ *     def __init__(self):
+ *         self._buoy_list = []             # <<<<<<<<<<<<<<
+ *         self._confirm_thresh = 8
+ * 
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list, __pyx_t_1) < 0) __PYX_ERR(0, 30, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":31
+ *     def __init__(self):
+ *         self._buoy_list = []
+ *         self._confirm_thresh = 8             # <<<<<<<<<<<<<<
+ * 
+ *     def add_buoy(self, buoy):
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh, __pyx_int_8) < 0) __PYX_ERR(0, 31, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":29
+ * 
+ * class BuoyList:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._buoy_list = []
+ *         self._confirm_thresh = 8
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("Bouy_List.BuoyList.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":33
+ *         self._confirm_thresh = 8
+ * 
+ *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
+ *         if len(self._buoy_list) > 0:
+ *             found = False
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_3add_buoy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_8BuoyList_3add_buoy = {"add_buoy", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9Bouy_List_8BuoyList_3add_buoy, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_3add_buoy(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_buoy = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("add_buoy (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_buoy,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_buoy)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("add_buoy", 1, 2, 2, 1); __PYX_ERR(0, 33, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_buoy") < 0)) __PYX_ERR(0, 33, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_buoy = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("add_buoy", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 33, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("Bouy_List.BuoyList.add_buoy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_9Bouy_List_8BuoyList_2add_buoy(__pyx_self, __pyx_v_self, __pyx_v_buoy);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_buoy) {
+  int __pyx_v_found;
+  PyObject *__pyx_v_item = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  Py_ssize_t __pyx_t_2;
+  int __pyx_t_3;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *(*__pyx_t_5)(PyObject *);
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
+  int __pyx_t_8;
+  __Pyx_RefNannySetupContext("add_buoy", 0);
+
+  /* "Bouy_List.pyx":34
+ * 
+ *     def add_buoy(self, buoy):
+ *         if len(self._buoy_list) > 0:             # <<<<<<<<<<<<<<
+ *             found = False
+ *             for item in self._buoy_list:
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 34, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = ((__pyx_t_2 > 0) != 0);
+  if (__pyx_t_3) {
+
+    /* "Bouy_List.pyx":35
+ *     def add_buoy(self, buoy):
+ *         if len(self._buoy_list) > 0:
+ *             found = False             # <<<<<<<<<<<<<<
+ *             for item in self._buoy_list:
+ *                 if buoy == item.get_attributes():
+ */
+    __pyx_v_found = 0;
+
+    /* "Bouy_List.pyx":36
+ *         if len(self._buoy_list) > 0:
+ *             found = False
+ *             for item in self._buoy_list:             # <<<<<<<<<<<<<<
+ *                 if buoy == item.get_attributes():
+ *                     item.increment_hits()
+ */
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+      __pyx_t_4 = __pyx_t_1; __Pyx_INCREF(__pyx_t_4); __pyx_t_2 = 0;
+      __pyx_t_5 = NULL;
+    } else {
+      __pyx_t_2 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 36, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 36, __pyx_L1_error)
+    }
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    for (;;) {
+      if (likely(!__pyx_t_5)) {
+        if (likely(PyList_CheckExact(__pyx_t_4))) {
+          if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_4)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 36, __pyx_L1_error)
+          #else
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          #endif
+        } else {
+          if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
+          #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 36, __pyx_L1_error)
+          #else
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+          __Pyx_GOTREF(__pyx_t_1);
+          #endif
+        }
+      } else {
+        __pyx_t_1 = __pyx_t_5(__pyx_t_4);
+        if (unlikely(!__pyx_t_1)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else __PYX_ERR(0, 36, __pyx_L1_error)
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_1);
+      }
+      __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "Bouy_List.pyx":37
+ *             found = False
+ *             for item in self._buoy_list:
+ *                 if buoy == item.get_attributes():             # <<<<<<<<<<<<<<
+ *                     item.increment_hits()
+ *                     found = True
+ */
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_attributes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_7 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_7);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+        }
+      }
+      __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __pyx_t_6 = PyObject_RichCompare(__pyx_v_buoy, __pyx_t_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_3 < 0)) __PYX_ERR(0, 37, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      if (__pyx_t_3) {
+
+        /* "Bouy_List.pyx":38
+ *             for item in self._buoy_list:
+ *                 if buoy == item.get_attributes():
+ *                     item.increment_hits()             # <<<<<<<<<<<<<<
+ *                     found = True
+ *             if not found:
+ */
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_increment_hits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_7 = NULL;
+        if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_1);
+          if (likely(__pyx_t_7)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+            __Pyx_INCREF(__pyx_t_7);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_1, function);
+          }
+        }
+        __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+        __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+        if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 38, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+        /* "Bouy_List.pyx":39
+ *                 if buoy == item.get_attributes():
+ *                     item.increment_hits()
+ *                     found = True             # <<<<<<<<<<<<<<
+ *             if not found:
+ *                 self._buoy_list.append(Buoy(buoy))
+ */
+        __pyx_v_found = 1;
+
+        /* "Bouy_List.pyx":37
+ *             found = False
+ *             for item in self._buoy_list:
+ *                 if buoy == item.get_attributes():             # <<<<<<<<<<<<<<
+ *                     item.increment_hits()
+ *                     found = True
+ */
+      }
+
+      /* "Bouy_List.pyx":36
+ *         if len(self._buoy_list) > 0:
+ *             found = False
+ *             for item in self._buoy_list:             # <<<<<<<<<<<<<<
+ *                 if buoy == item.get_attributes():
+ *                     item.increment_hits()
+ */
+    }
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+    /* "Bouy_List.pyx":40
+ *                     item.increment_hits()
+ *                     found = True
+ *             if not found:             # <<<<<<<<<<<<<<
+ *                 self._buoy_list.append(Buoy(buoy))
+ *         else:
+ */
+    __pyx_t_3 = ((!(__pyx_v_found != 0)) != 0);
+    if (__pyx_t_3) {
+
+      /* "Bouy_List.pyx":41
+ *                     found = True
+ *             if not found:
+ *                 self._buoy_list.append(Buoy(buoy))             # <<<<<<<<<<<<<<
+ *         else:
+ *             self._buoy_list.append(Buoy(buoy))
+ */
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Buoy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_7 = NULL;
+      if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_1);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+          __Pyx_INCREF(__pyx_t_7);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_1, function);
+        }
+      }
+      __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_7, __pyx_v_buoy) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_buoy);
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 41, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 41, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+      /* "Bouy_List.pyx":40
+ *                     item.increment_hits()
+ *                     found = True
+ *             if not found:             # <<<<<<<<<<<<<<
+ *                 self._buoy_list.append(Buoy(buoy))
+ *         else:
+ */
+    }
+
+    /* "Bouy_List.pyx":34
+ * 
+ *     def add_buoy(self, buoy):
+ *         if len(self._buoy_list) > 0:             # <<<<<<<<<<<<<<
+ *             found = False
+ *             for item in self._buoy_list:
+ */
+    goto __pyx_L3;
+  }
+
+  /* "Bouy_List.pyx":43
+ *                 self._buoy_list.append(Buoy(buoy))
+ *         else:
+ *             self._buoy_list.append(Buoy(buoy))             # <<<<<<<<<<<<<<
+ * 
+ *     def get_buoys(self):
+ */
+  /*else*/ {
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_Buoy); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_7 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_1))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_1);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_1, function);
+      }
+    }
+    __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_1, __pyx_t_7, __pyx_v_buoy) : __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_buoy);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 43, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_8 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_t_4); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 43, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  }
+  __pyx_L3:;
+
+  /* "Bouy_List.pyx":33
+ *         self._confirm_thresh = 8
+ * 
+ *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
+ *         if len(self._buoy_list) > 0:
+ *             found = False
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("Bouy_List.BuoyList.add_buoy", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_item);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":45
+ *             self._buoy_list.append(Buoy(buoy))
+ * 
+ *     def get_buoys(self):             # <<<<<<<<<<<<<<
+ *         return self._buoy_list
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_5get_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_8BuoyList_5get_buoys = {"get_buoys", (PyCFunction)__pyx_pw_9Bouy_List_8BuoyList_5get_buoys, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_5get_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_buoys (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_8BuoyList_4get_buoys(__pyx_self, ((PyObject *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_4get_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_buoys", 0);
 
-  /* "EnvMap.pyx":48
- *         :return: A list of lists, where each sublist is the coordinates and color of a buoy
- *         """
- *         return self._buoy_data             # <<<<<<<<<<<<<<
+  /* "Bouy_List.pyx":46
+ * 
+ *     def get_buoys(self):
+ *         return self._buoy_list             # <<<<<<<<<<<<<<
+ * 
+ *     def set_confirmation_threshold(self, thresh):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_data); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 46, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "EnvMap.pyx":42
- *         return self._curr_map
+  /* "Bouy_List.pyx":45
+ *             self._buoy_list.append(Buoy(buoy))
  * 
  *     def get_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the set of all buoys in the form of (y, x, color)
+ *         return self._buoy_list
+ * 
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("EnvMap.EnvMap.get_buoys", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("Bouy_List.BuoyList.get_buoys", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":48
+ *         return self._buoy_list
+ * 
+ *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
+ *         self._confirm_thresh = thresh
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_7set_confirmation_threshold(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_8BuoyList_7set_confirmation_threshold = {"set_confirmation_threshold", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_9Bouy_List_8BuoyList_7set_confirmation_threshold, METH_VARARGS|METH_KEYWORDS, 0};
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_7set_confirmation_threshold(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
+  PyObject *__pyx_v_thresh = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("set_confirmation_threshold (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_thresh,0};
+    PyObject* values[2] = {0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        CYTHON_FALLTHROUGH;
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        CYTHON_FALLTHROUGH;
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        CYTHON_FALLTHROUGH;
+        case  1:
+        if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_thresh)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("set_confirmation_threshold", 1, 2, 2, 1); __PYX_ERR(0, 48, __pyx_L3_error)
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_confirmation_threshold") < 0)) __PYX_ERR(0, 48, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+    }
+    __pyx_v_self = values[0];
+    __pyx_v_thresh = values[1];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("set_confirmation_threshold", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 48, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("Bouy_List.BuoyList.set_confirmation_threshold", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_9Bouy_List_8BuoyList_6set_confirmation_threshold(__pyx_self, __pyx_v_self, __pyx_v_thresh);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_6set_confirmation_threshold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_thresh) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("set_confirmation_threshold", 0);
+
+  /* "Bouy_List.pyx":49
+ * 
+ *     def set_confirmation_threshold(self, thresh):
+ *         self._confirm_thresh = thresh             # <<<<<<<<<<<<<<
+ * 
+ *     def get_confirmation_threshold(self):
+ */
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh, __pyx_v_thresh) < 0) __PYX_ERR(0, 49, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":48
+ *         return self._buoy_list
+ * 
+ *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
+ *         self._confirm_thresh = thresh
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("Bouy_List.BuoyList.set_confirmation_threshold", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":51
+ *         self._confirm_thresh = thresh
+ * 
+ *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
+ *         return self._confirm_thresh
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_9get_confirmation_threshold(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_8BuoyList_9get_confirmation_threshold = {"get_confirmation_threshold", (PyCFunction)__pyx_pw_9Bouy_List_8BuoyList_9get_confirmation_threshold, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_9get_confirmation_threshold(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_confirmation_threshold (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_8BuoyList_8get_confirmation_threshold(__pyx_self, ((PyObject *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_8get_confirmation_threshold(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  __Pyx_RefNannySetupContext("get_confirmation_threshold", 0);
+
+  /* "Bouy_List.pyx":52
+ * 
+ *     def get_confirmation_threshold(self):
+ *         return self._confirm_thresh             # <<<<<<<<<<<<<<
+ * 
+ *     def get_confirmed_buoys(self):
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "Bouy_List.pyx":51
+ *         self._confirm_thresh = thresh
+ * 
+ *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
+ *         return self._confirm_thresh
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("Bouy_List.BuoyList.get_confirmation_threshold", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "Bouy_List.pyx":54
+ *         return self._confirm_thresh
+ * 
+ *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
+ *         arr = []
+ *         for item in self._buoy_list:
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_11get_confirmed_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static PyMethodDef __pyx_mdef_9Bouy_List_8BuoyList_11get_confirmed_buoys = {"get_confirmed_buoys", (PyCFunction)__pyx_pw_9Bouy_List_8BuoyList_11get_confirmed_buoys, METH_O, 0};
+static PyObject *__pyx_pw_9Bouy_List_8BuoyList_11get_confirmed_buoys(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_confirmed_buoys (wrapper)", 0);
+  __pyx_r = __pyx_pf_9Bouy_List_8BuoyList_10get_confirmed_buoys(__pyx_self, ((PyObject *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_9Bouy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+  PyObject *__pyx_v_arr = NULL;
+  PyObject *__pyx_v_item = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  Py_ssize_t __pyx_t_3;
+  PyObject *(*__pyx_t_4)(PyObject *);
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  int __pyx_t_7;
+  int __pyx_t_8;
+  __Pyx_RefNannySetupContext("get_confirmed_buoys", 0);
+
+  /* "Bouy_List.pyx":55
+ * 
+ *     def get_confirmed_buoys(self):
+ *         arr = []             # <<<<<<<<<<<<<<
+ *         for item in self._buoy_list:
+ *             if item.get_hits() > self._confirm_thresh:
+ */
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_arr = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":56
+ *     def get_confirmed_buoys(self):
+ *         arr = []
+ *         for item in self._buoy_list:             # <<<<<<<<<<<<<<
+ *             if item.get_hits() > self._confirm_thresh:
+ *                 arr.append(item)
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+    __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
+    __pyx_t_4 = NULL;
+  } else {
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 56, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 56, __pyx_L1_error)
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_4)) {
+      if (likely(PyList_CheckExact(__pyx_t_2))) {
+        if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
+        #else
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+      } else {
+        if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+        #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 56, __pyx_L1_error)
+        #else
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 56, __pyx_L1_error)
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+      }
+    } else {
+      __pyx_t_1 = __pyx_t_4(__pyx_t_2);
+      if (unlikely(!__pyx_t_1)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else __PYX_ERR(0, 56, __pyx_L1_error)
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_1);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "Bouy_List.pyx":57
+ *         arr = []
+ *         for item in self._buoy_list:
+ *             if item.get_hits() > self._confirm_thresh:             # <<<<<<<<<<<<<<
+ *                 arr.append(item)
+ */
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_hits); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_6);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+      }
+    }
+    __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 57, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (__pyx_t_7) {
+
+      /* "Bouy_List.pyx":58
+ *         for item in self._buoy_list:
+ *             if item.get_hits() > self._confirm_thresh:
+ *                 arr.append(item)             # <<<<<<<<<<<<<<
+ */
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_arr, __pyx_v_item); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 58, __pyx_L1_error)
+
+      /* "Bouy_List.pyx":57
+ *         arr = []
+ *         for item in self._buoy_list:
+ *             if item.get_hits() > self._confirm_thresh:             # <<<<<<<<<<<<<<
+ *                 arr.append(item)
+ */
+    }
+
+    /* "Bouy_List.pyx":56
+ *     def get_confirmed_buoys(self):
+ *         arr = []
+ *         for item in self._buoy_list:             # <<<<<<<<<<<<<<
+ *             if item.get_hits() > self._confirm_thresh:
+ *                 arr.append(item)
+ */
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":54
+ *         return self._confirm_thresh
+ * 
+ *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
+ *         arr = []
+ *         for item in self._buoy_list:
+ */
+
+  /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_AddTraceback("Bouy_List.BuoyList.get_confirmed_buoys", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_arr);
+  __Pyx_XDECREF(__pyx_v_item);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -2080,17 +2790,17 @@ static PyMethodDef __pyx_methods[] = {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec_EnvMap(PyObject* module); /*proto*/
+static int __pyx_pymod_exec_Bouy_List(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec_EnvMap},
+  {Py_mod_exec, (void*)__pyx_pymod_exec_Bouy_List},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "EnvMap",
+    "Bouy_List",
     0, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
@@ -2119,104 +2829,208 @@ static struct PyModuleDef __pyx_moduledef = {
 #endif
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
-  {&__pyx_n_s_EnvMap, __pyx_k_EnvMap, sizeof(__pyx_k_EnvMap), 0, 0, 1, 1},
-  {&__pyx_n_s_EnvMap___init, __pyx_k_EnvMap___init, sizeof(__pyx_k_EnvMap___init), 0, 0, 1, 1},
-  {&__pyx_n_s_EnvMap___log_buoys, __pyx_k_EnvMap___log_buoys, sizeof(__pyx_k_EnvMap___log_buoys), 0, 0, 1, 1},
-  {&__pyx_n_s_EnvMap__log_buoys, __pyx_k_EnvMap__log_buoys, sizeof(__pyx_k_EnvMap__log_buoys), 0, 0, 1, 1},
-  {&__pyx_n_s_EnvMap_get_buoys, __pyx_k_EnvMap_get_buoys, sizeof(__pyx_k_EnvMap_get_buoys), 0, 0, 1, 1},
-  {&__pyx_n_s_EnvMap_get_map, __pyx_k_EnvMap_get_map, sizeof(__pyx_k_EnvMap_get_map), 0, 0, 1, 1},
-  {&__pyx_kp_s_EnvMap_pyx, __pyx_k_EnvMap_pyx, sizeof(__pyx_k_EnvMap_pyx), 0, 0, 1, 0},
+  {&__pyx_n_s_Bouy_List, __pyx_k_Bouy_List, sizeof(__pyx_k_Bouy_List), 0, 0, 1, 1},
+  {&__pyx_kp_s_Bouy_List_pyx, __pyx_k_Bouy_List_pyx, sizeof(__pyx_k_Bouy_List_pyx), 0, 0, 1, 0},
+  {&__pyx_n_s_Buoy, __pyx_k_Buoy, sizeof(__pyx_k_Buoy), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList, __pyx_k_BuoyList, sizeof(__pyx_k_BuoyList), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList___init, __pyx_k_BuoyList___init, sizeof(__pyx_k_BuoyList___init), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList_add_buoy, __pyx_k_BuoyList_add_buoy, sizeof(__pyx_k_BuoyList_add_buoy), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList_get_buoys, __pyx_k_BuoyList_get_buoys, sizeof(__pyx_k_BuoyList_get_buoys), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList_get_confirmation_thresh, __pyx_k_BuoyList_get_confirmation_thresh, sizeof(__pyx_k_BuoyList_get_confirmation_thresh), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList_get_confirmed_buoys, __pyx_k_BuoyList_get_confirmed_buoys, sizeof(__pyx_k_BuoyList_get_confirmed_buoys), 0, 0, 1, 1},
+  {&__pyx_n_s_BuoyList_set_confirmation_thresh, __pyx_k_BuoyList_set_confirmation_thresh, sizeof(__pyx_k_BuoyList_set_confirmation_thresh), 0, 0, 1, 1},
+  {&__pyx_n_s_Buoy___init, __pyx_k_Buoy___init, sizeof(__pyx_k_Buoy___init), 0, 0, 1, 1},
+  {&__pyx_n_s_Buoy___set_attributes, __pyx_k_Buoy___set_attributes, sizeof(__pyx_k_Buoy___set_attributes), 0, 0, 1, 1},
+  {&__pyx_n_s_Buoy__set_attributes, __pyx_k_Buoy__set_attributes, sizeof(__pyx_k_Buoy__set_attributes), 0, 0, 1, 1},
+  {&__pyx_n_s_Buoy_get_attributes, __pyx_k_Buoy_get_attributes, sizeof(__pyx_k_Buoy_get_attributes), 0, 0, 1, 1},
+  {&__pyx_n_s_Buoy_get_hits, __pyx_k_Buoy_get_hits, sizeof(__pyx_k_Buoy_get_hits), 0, 0, 1, 1},
+  {&__pyx_n_s_Buoy_increment_hits, __pyx_k_Buoy_increment_hits, sizeof(__pyx_k_Buoy_increment_hits), 0, 0, 1, 1},
+  {&__pyx_n_s_add_buoy, __pyx_k_add_buoy, sizeof(__pyx_k_add_buoy), 0, 0, 1, 1},
   {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
-  {&__pyx_n_s_buoy_data, __pyx_k_buoy_data, sizeof(__pyx_k_buoy_data), 0, 0, 1, 1},
+  {&__pyx_n_s_arr, __pyx_k_arr, sizeof(__pyx_k_arr), 0, 0, 1, 1},
+  {&__pyx_n_s_attribute_arr, __pyx_k_attribute_arr, sizeof(__pyx_k_attribute_arr), 0, 0, 1, 1},
+  {&__pyx_n_s_buoy, __pyx_k_buoy, sizeof(__pyx_k_buoy), 0, 0, 1, 1},
+  {&__pyx_n_s_buoy_list, __pyx_k_buoy_list, sizeof(__pyx_k_buoy_list), 0, 0, 1, 1},
   {&__pyx_n_s_cline_in_traceback, __pyx_k_cline_in_traceback, sizeof(__pyx_k_cline_in_traceback), 0, 0, 1, 1},
-  {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
-  {&__pyx_n_s_curr_map, __pyx_k_curr_map, sizeof(__pyx_k_curr_map), 0, 0, 1, 1},
+  {&__pyx_n_s_color, __pyx_k_color, sizeof(__pyx_k_color), 0, 0, 1, 1},
+  {&__pyx_n_s_confirm_thresh, __pyx_k_confirm_thresh, sizeof(__pyx_k_confirm_thresh), 0, 0, 1, 1},
   {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
-  {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
+  {&__pyx_n_s_found, __pyx_k_found, sizeof(__pyx_k_found), 0, 0, 1, 1},
+  {&__pyx_n_s_get_attributes, __pyx_k_get_attributes, sizeof(__pyx_k_get_attributes), 0, 0, 1, 1},
   {&__pyx_n_s_get_buoys, __pyx_k_get_buoys, sizeof(__pyx_k_get_buoys), 0, 0, 1, 1},
-  {&__pyx_n_s_get_map, __pyx_k_get_map, sizeof(__pyx_k_get_map), 0, 0, 1, 1},
-  {&__pyx_n_s_green, __pyx_k_green, sizeof(__pyx_k_green), 0, 0, 1, 1},
-  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
-  {&__pyx_n_s_image, __pyx_k_image, sizeof(__pyx_k_image), 0, 0, 1, 1},
+  {&__pyx_n_s_get_confirmation_threshold, __pyx_k_get_confirmation_threshold, sizeof(__pyx_k_get_confirmation_threshold), 0, 0, 1, 1},
+  {&__pyx_n_s_get_confirmed_buoys, __pyx_k_get_confirmed_buoys, sizeof(__pyx_k_get_confirmed_buoys), 0, 0, 1, 1},
+  {&__pyx_n_s_get_hits, __pyx_k_get_hits, sizeof(__pyx_k_get_hits), 0, 0, 1, 1},
+  {&__pyx_n_s_hits, __pyx_k_hits, sizeof(__pyx_k_hits), 0, 0, 1, 1},
+  {&__pyx_n_s_increment_hits, __pyx_k_increment_hits, sizeof(__pyx_k_increment_hits), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
-  {&__pyx_n_s_j, __pyx_k_j, sizeof(__pyx_k_j), 0, 0, 1, 1},
-  {&__pyx_n_s_log_buoys, __pyx_k_log_buoys, sizeof(__pyx_k_log_buoys), 0, 0, 1, 1},
+  {&__pyx_n_s_item, __pyx_k_item, sizeof(__pyx_k_item), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_odom_coords, __pyx_k_odom_coords, sizeof(__pyx_k_odom_coords), 0, 0, 1, 1},
-  {&__pyx_n_s_offset, __pyx_k_offset, sizeof(__pyx_k_offset), 0, 0, 1, 1},
-  {&__pyx_n_s_pixel, __pyx_k_pixel, sizeof(__pyx_k_pixel), 0, 0, 1, 1},
+  {&__pyx_n_s_none, __pyx_k_none, sizeof(__pyx_k_none), 0, 0, 1, 1},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
-  {&__pyx_n_s_red, __pyx_k_red, sizeof(__pyx_k_red), 0, 0, 1, 1},
-  {&__pyx_n_s_row, __pyx_k_row, sizeof(__pyx_k_row), 0, 0, 1, 1},
   {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
-  {&__pyx_n_s_sum, __pyx_k_sum, sizeof(__pyx_k_sum), 0, 0, 1, 1},
+  {&__pyx_n_s_set_attributes, __pyx_k_set_attributes, sizeof(__pyx_k_set_attributes), 0, 0, 1, 1},
+  {&__pyx_n_s_set_confirmation_threshold, __pyx_k_set_confirmation_threshold, sizeof(__pyx_k_set_confirmation_threshold), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
+  {&__pyx_n_s_thresh, __pyx_k_thresh, sizeof(__pyx_k_thresh), 0, 0, 1, 1},
   {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) __PYX_ERR(0, 21, __pyx_L1_error)
-  __pyx_builtin_sum = __Pyx_GetBuiltinName(__pyx_n_s_sum); if (!__pyx_builtin_sum) __PYX_ERR(0, 22, __pyx_L1_error)
   return 0;
-  __pyx_L1_error:;
-  return -1;
 }
 
 static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "EnvMap.pyx":2
- * class EnvMap:
- *     def __init__(self, image, odom_coords):             # <<<<<<<<<<<<<<
- *         """
- *         Initializes the class variables and finds any buoys in the given map image
+  /* "Bouy_List.pyx":2
+ * class Buoy:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._y = 0
+ *         self._x = 0
  */
-  __pyx_tuple_ = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_image, __pyx_n_s_odom_coords); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_tuple_ = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(3, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EnvMap_pyx, __pyx_n_s_init, 2, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_init, 2, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 2, __pyx_L1_error)
 
-  /* "EnvMap.pyx":14
- *         self.__log_buoys()
+  /* "Bouy_List.pyx":8
+ *         self._hits = 0
  * 
- *     def __log_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Logs the current position and color of any buoys in the map
+ *     def __init__(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
  */
-  __pyx_tuple__3 = PyTuple_Pack(7, __pyx_n_s_self, __pyx_n_s_i, __pyx_n_s_row, __pyx_n_s_j, __pyx_n_s_pixel, __pyx_n_s_y, __pyx_n_s_x); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_attribute_arr); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
-  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(1, 0, 7, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EnvMap_pyx, __pyx_n_s_log_buoys, 14, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_codeobj__4 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__3, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_init, 8, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__4)) __PYX_ERR(0, 8, __pyx_L1_error)
 
-  /* "EnvMap.pyx":34
- *                         self._buoy_data.append([y, x, "red"])
+  /* "Bouy_List.pyx":13
+ *         self._color = attribute_arr[2]
  * 
- *     def get_map(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the map stored in this instance of the class
+ *     def __set_attributes(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
  */
-  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_attribute_arr); if (unlikely(!__pyx_tuple__5)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EnvMap_pyx, __pyx_n_s_get_map, 34, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_set_attributes, 13, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) __PYX_ERR(0, 13, __pyx_L1_error)
 
-  /* "EnvMap.pyx":42
- *         return self._curr_map
+  /* "Bouy_List.pyx":18
+ *         self._color = attribute_arr[2]
  * 
- *     def get_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the set of all buoys in the form of (y, x, color)
+ *     def increment_hits(self):             # <<<<<<<<<<<<<<
+ *         self._hits = self._hits + 1
+ * 
  */
-  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_tuple__7 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__7)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_EnvMap_pyx, __pyx_n_s_get_buoys, 42, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_increment_hits, 18, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) __PYX_ERR(0, 18, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":21
+ *         self._hits = self._hits + 1
+ * 
+ *     def get_attributes(self):             # <<<<<<<<<<<<<<
+ *         return [self._y, self._x, self._color]
+ * 
+ */
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__9)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__9);
+  __Pyx_GIVEREF(__pyx_tuple__9);
+  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_get_attributes, 21, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) __PYX_ERR(0, 21, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":24
+ *         return [self._y, self._x, self._color]
+ * 
+ *     def get_hits(self):             # <<<<<<<<<<<<<<
+ *         return self._hits
+ * 
+ */
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__11);
+  __Pyx_GIVEREF(__pyx_tuple__11);
+  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_get_hits, 24, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 24, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":29
+ * 
+ * class BuoyList:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._buoy_list = []
+ *         self._confirm_thresh = 8
+ */
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__13);
+  __Pyx_GIVEREF(__pyx_tuple__13);
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_init, 29, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 29, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":33
+ *         self._confirm_thresh = 8
+ * 
+ *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
+ *         if len(self._buoy_list) > 0:
+ *             found = False
+ */
+  __pyx_tuple__15 = PyTuple_Pack(4, __pyx_n_s_self, __pyx_n_s_buoy, __pyx_n_s_found, __pyx_n_s_item); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_add_buoy, 33, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 33, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":45
+ *             self._buoy_list.append(Buoy(buoy))
+ * 
+ *     def get_buoys(self):             # <<<<<<<<<<<<<<
+ *         return self._buoy_list
+ * 
+ */
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_get_buoys, 45, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 45, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":48
+ *         return self._buoy_list
+ * 
+ *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
+ *         self._confirm_thresh = thresh
+ * 
+ */
+  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_thresh); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_set_confirmation_threshold, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 48, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":51
+ *         self._confirm_thresh = thresh
+ * 
+ *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
+ *         return self._confirm_thresh
+ * 
+ */
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_get_confirmation_threshold, 51, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 51, __pyx_L1_error)
+
+  /* "Bouy_List.pyx":54
+ *         return self._confirm_thresh
+ * 
+ *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
+ *         arr = []
+ *         for item in self._buoy_list:
+ */
+  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_arr, __pyx_n_s_item); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Bouy_List_pyx, __pyx_n_s_get_confirmed_buoys, 54, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -2228,8 +3042,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) __PYX_ERR(0, 1, __pyx_L1_error);
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_30 = PyInt_FromLong(30); if (unlikely(!__pyx_int_30)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_50 = PyInt_FromLong(50); if (unlikely(!__pyx_int_50)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_8 = PyInt_FromLong(8); if (unlikely(!__pyx_int_8)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;
@@ -2316,11 +3129,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC initEnvMap(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC initEnvMap(void)
+__Pyx_PyMODINIT_FUNC initBouy_List(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC initBouy_List(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit_EnvMap(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit_EnvMap(void)
+__Pyx_PyMODINIT_FUNC PyInit_Bouy_List(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit_Bouy_List(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -2387,7 +3200,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec_EnvMap(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec_Bouy_List(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
@@ -2397,7 +3210,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_EnvMap(PyObject *__pyx_pyinit_modu
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module 'EnvMap' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module 'Bouy_List' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -2412,7 +3225,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_EnvMap(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit_Bouy_List(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -2451,7 +3264,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("EnvMap", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("Bouy_List", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -2469,14 +3282,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_EnvMap) {
+  if (__pyx_module_is_main_Bouy_List) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "EnvMap")) {
-      if (unlikely(PyDict_SetItemString(modules, "EnvMap", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "Bouy_List")) {
+      if (unlikely(PyDict_SetItemString(modules, "Bouy_List", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -2497,71 +3310,196 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "EnvMap.pyx":1
- * class EnvMap:             # <<<<<<<<<<<<<<
- *     def __init__(self, image, odom_coords):
- *         """
+  /* "Bouy_List.pyx":1
+ * class Buoy:             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         self._y = 0
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_EnvMap, __pyx_n_s_EnvMap, (PyObject *) NULL, __pyx_n_s_EnvMap, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_Buoy, __pyx_n_s_Buoy, (PyObject *) NULL, __pyx_n_s_Bouy_List, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "EnvMap.pyx":2
- * class EnvMap:
- *     def __init__(self, image, odom_coords):             # <<<<<<<<<<<<<<
- *         """
- *         Initializes the class variables and finds any buoys in the given map image
+  /* "Bouy_List.pyx":2
+ * class Buoy:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._y = 0
+ *         self._x = 0
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6EnvMap_6EnvMap_1__init__, 0, __pyx_n_s_EnvMap___init, NULL, __pyx_n_s_EnvMap, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_4Buoy_1__init__, 0, __pyx_n_s_Buoy___init, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__2)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 2, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EnvMap.pyx":14
- *         self.__log_buoys()
+  /* "Bouy_List.pyx":8
+ *         self._hits = 0
  * 
- *     def __log_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Logs the current position and color of any buoys in the map
+ *     def __init__(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6EnvMap_6EnvMap_3__log_buoys, 0, __pyx_n_s_EnvMap___log_buoys, NULL, __pyx_n_s_EnvMap, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 14, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_4Buoy_3__init__, 0, __pyx_n_s_Buoy___init, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__4)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_EnvMap__log_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 14, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EnvMap.pyx":34
- *                         self._buoy_data.append([y, x, "red"])
+  /* "Bouy_List.pyx":13
+ *         self._color = attribute_arr[2]
  * 
- *     def get_map(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the map stored in this instance of the class
+ *     def __set_attributes(self, attribute_arr):             # <<<<<<<<<<<<<<
+ *         self._y = attribute_arr[0]
+ *         self._x = attribute_arr[1]
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6EnvMap_6EnvMap_5get_map, 0, __pyx_n_s_EnvMap_get_map, NULL, __pyx_n_s_EnvMap, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_4Buoy_5__set_attributes, 0, __pyx_n_s_Buoy___set_attributes, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__6)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_map, __pyx_t_2) < 0) __PYX_ERR(0, 34, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_Buoy__set_attributes, __pyx_t_2) < 0) __PYX_ERR(0, 13, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EnvMap.pyx":42
- *         return self._curr_map
+  /* "Bouy_List.pyx":18
+ *         self._color = attribute_arr[2]
  * 
- *     def get_buoys(self):             # <<<<<<<<<<<<<<
- *         """
- *         Returns the set of all buoys in the form of (y, x, color)
+ *     def increment_hits(self):             # <<<<<<<<<<<<<<
+ *         self._hits = self._hits + 1
+ * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_6EnvMap_6EnvMap_7get_buoys, 0, __pyx_n_s_EnvMap_get_buoys, NULL, __pyx_n_s_EnvMap, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 42, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_4Buoy_7increment_hits, 0, __pyx_n_s_Buoy_increment_hits, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__8)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_increment_hits, __pyx_t_2) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "EnvMap.pyx":1
- * class EnvMap:             # <<<<<<<<<<<<<<
- *     def __init__(self, image, odom_coords):
- *         """
+  /* "Bouy_List.pyx":21
+ *         self._hits = self._hits + 1
+ * 
+ *     def get_attributes(self):             # <<<<<<<<<<<<<<
+ *         return [self._y, self._x, self._color]
+ * 
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_EnvMap, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_4Buoy_9get_attributes, 0, __pyx_n_s_Buoy_get_attributes, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__10)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_EnvMap, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_attributes, __pyx_t_2) < 0) __PYX_ERR(0, 21, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":24
+ *         return [self._y, self._x, self._color]
+ * 
+ *     def get_hits(self):             # <<<<<<<<<<<<<<
+ *         return self._hits
+ * 
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_4Buoy_11get_hits, 0, __pyx_n_s_Buoy_get_hits, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_hits, __pyx_t_2) < 0) __PYX_ERR(0, 24, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":1
+ * class Buoy:             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         self._y = 0
+ */
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_Buoy, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Buoy, __pyx_t_2) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":28
+ * 
+ * 
+ * class BuoyList:             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         self._buoy_list = []
+ */
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_BuoyList, __pyx_n_s_BuoyList, (PyObject *) NULL, __pyx_n_s_Bouy_List, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+
+  /* "Bouy_List.pyx":29
+ * 
+ * class BuoyList:
+ *     def __init__(self):             # <<<<<<<<<<<<<<
+ *         self._buoy_list = []
+ *         self._confirm_thresh = 8
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_8BuoyList_1__init__, 0, __pyx_n_s_BuoyList___init, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 29, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":33
+ *         self._confirm_thresh = 8
+ * 
+ *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
+ *         if len(self._buoy_list) > 0:
+ *             found = False
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_8BuoyList_3add_buoy, 0, __pyx_n_s_BuoyList_add_buoy, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_buoy, __pyx_t_2) < 0) __PYX_ERR(0, 33, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":45
+ *             self._buoy_list.append(Buoy(buoy))
+ * 
+ *     def get_buoys(self):             # <<<<<<<<<<<<<<
+ *         return self._buoy_list
+ * 
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_8BuoyList_5get_buoys, 0, __pyx_n_s_BuoyList_get_buoys, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":48
+ *         return self._buoy_list
+ * 
+ *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
+ *         self._confirm_thresh = thresh
+ * 
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_8BuoyList_7set_confirmation_threshold, 0, __pyx_n_s_BuoyList_set_confirmation_thresh, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_set_confirmation_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":51
+ *         self._confirm_thresh = thresh
+ * 
+ *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
+ *         return self._confirm_thresh
+ * 
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_8BuoyList_9get_confirmation_threshold, 0, __pyx_n_s_BuoyList_get_confirmation_thresh, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_confirmation_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 51, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":54
+ *         return self._confirm_thresh
+ * 
+ *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
+ *         arr = []
+ *         for item in self._buoy_list:
+ */
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Bouy_List_8BuoyList_11get_confirmed_buoys, 0, __pyx_n_s_BuoyList_get_confirmed_buoys, NULL, __pyx_n_s_Bouy_List, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_confirmed_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+  /* "Bouy_List.pyx":28
+ * 
+ * 
+ * class BuoyList:             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         self._buoy_list = []
+ */
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BuoyList, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BuoyList, __pyx_t_2) < 0) __PYX_ERR(0, 28, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "Bouy_List.pyx":1
+ * class Buoy:             # <<<<<<<<<<<<<<
+ *     def __init__(self):
+ *         self._y = 0
+ */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_test, __pyx_t_1) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -2575,11 +3513,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init EnvMap", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init Bouy_List", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init EnvMap");
+    PyErr_SetString(PyExc_ImportError, "init Bouy_List");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -2610,33 +3548,19 @@ end:
 }
 #endif
 
-/* PyObjectGetAttrStr */
+/* PyObjectSetAttrStr */
 #if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
     PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_getattro))
-        return tp->tp_getattro(obj, attr_name);
+    if (likely(tp->tp_setattro))
+        return tp->tp_setattro(obj, attr_name, value);
 #if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_getattr))
-        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+    if (likely(tp->tp_setattr))
+        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
 #endif
-    return PyObject_GetAttr(obj, attr_name);
+    return PyObject_SetAttr(obj, attr_name, value);
 }
 #endif
-
-/* GetBuiltinName */
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
 
 /* RaiseArgTupleInvalid */
 static void __Pyx_RaiseArgtupleInvalid(
@@ -2780,17 +3704,228 @@ bad:
     return -1;
 }
 
-/* PyObjectSetAttrStr */
-#if CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_setattro))
-        return tp->tp_setattro(obj, attr_name, value);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_setattr))
-        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+/* GetItemInt */
+static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
+    PyObject *r;
+    if (!j) return NULL;
+    r = PyObject_GetItem(o, j);
+    Py_DECREF(j);
+    return r;
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyList_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
+        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
 #endif
-    return PyObject_SetAttr(obj, attr_name, value);
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
+                                                              CYTHON_NCP_UNUSED int wraparound,
+                                                              CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
+    Py_ssize_t wrapped_i = i;
+    if (wraparound & unlikely(i < 0)) {
+        wrapped_i += PyTuple_GET_SIZE(o);
+    }
+    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
+        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
+        Py_INCREF(r);
+        return r;
+    }
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+#else
+    return PySequence_GetItem(o, i);
+#endif
+}
+static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
+                                                     CYTHON_NCP_UNUSED int wraparound,
+                                                     CYTHON_NCP_UNUSED int boundscheck) {
+#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
+    if (is_list || PyList_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
+        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
+            PyObject *r = PyList_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    }
+    else if (PyTuple_CheckExact(o)) {
+        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
+        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
+            PyObject *r = PyTuple_GET_ITEM(o, n);
+            Py_INCREF(r);
+            return r;
+        }
+    } else {
+        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
+        if (likely(m && m->sq_item)) {
+            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
+                Py_ssize_t l = m->sq_length(o);
+                if (likely(l >= 0)) {
+                    i += l;
+                } else {
+                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
+                        return NULL;
+                    PyErr_Clear();
+                }
+            }
+            return m->sq_item(o, i);
+        }
+    }
+#else
+    if (is_list || PySequence_Check(o)) {
+        return PySequence_GetItem(o, i);
+    }
+#endif
+    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+}
+
+/* PyIntBinop */
+#if !CYTHON_COMPILING_IN_PYPY
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
+    (void)inplace;
+    (void)zerodivision_check;
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+#ifdef HAVE_LONG_LONG
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+#endif
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
+                        break;
+#ifdef HAVE_LONG_LONG
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
+                        goto long_long;
+#endif
+                    }
+                    CYTHON_FALLTHROUGH;
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+#ifdef HAVE_LONG_LONG
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+#endif
+        
+        
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
+}
+#endif
+
+/* PyObjectGetAttrStr */
+#if CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_getattro))
+        return tp->tp_getattro(obj, attr_name);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_getattr))
+        return tp->tp_getattr(obj, PyString_AS_STRING(attr_name));
+#endif
+    return PyObject_GetAttr(obj, attr_name);
 }
 #endif
 
@@ -3038,284 +4173,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallOneArg(PyObject *func, PyObjec
 }
 #endif
 
-/* PyIntBinop */
-#if !CYTHON_COMPILING_IN_PYPY
-static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, int inplace, int zerodivision_check) {
-    (void)inplace;
-    (void)zerodivision_check;
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long x;
-        long a = PyInt_AS_LONG(op1);
-            x = (long)((unsigned long)a + b);
-            if (likely((x^a) >= 0 || (x^b) >= 0))
-                return PyInt_FromLong(x);
-            return PyLong_Type.tp_as_number->nb_add(op1, op2);
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        const long b = intval;
-        long a, x;
-#ifdef HAVE_LONG_LONG
-        const PY_LONG_LONG llb = intval;
-        PY_LONG_LONG lla, llx;
-#endif
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        const Py_ssize_t size = Py_SIZE(op1);
-        if (likely(__Pyx_sst_abs(size) <= 1)) {
-            a = likely(size) ? digits[0] : 0;
-            if (size == -1) a = -a;
-        } else {
-            switch (size) {
-                case -2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 2:
-                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
-                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 3:
-                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
-                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case -4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                case 4:
-                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
-                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0]));
-                        break;
-#ifdef HAVE_LONG_LONG
-                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
-                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | (unsigned PY_LONG_LONG)digits[0]));
-                        goto long_long;
-#endif
-                    }
-                    CYTHON_FALLTHROUGH;
-                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
-            }
-        }
-                x = a + b;
-            return PyLong_FromLong(x);
-#ifdef HAVE_LONG_LONG
-        long_long:
-                llx = lla + llb;
-            return PyLong_FromLongLong(llx);
-#endif
-        
-        
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-            double result;
-            PyFPE_START_PROTECT("add", return NULL)
-            result = ((double)a) + (double)b;
-            PyFPE_END_PROTECT(result)
-            return PyFloat_FromDouble(result);
-    }
-    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
-}
-#endif
-
-/* PyIntCompare */
-static CYTHON_INLINE PyObject* __Pyx_PyInt_EqObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED long inplace) {
-    if (op1 == op2) {
-        Py_RETURN_TRUE;
-    }
-    #if PY_MAJOR_VERSION < 3
-    if (likely(PyInt_CheckExact(op1))) {
-        const long b = intval;
-        long a = PyInt_AS_LONG(op1);
-        if (a == b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-    }
-    #endif
-    #if CYTHON_USE_PYLONG_INTERNALS
-    if (likely(PyLong_CheckExact(op1))) {
-        int unequal;
-        unsigned long uintval;
-        Py_ssize_t size = Py_SIZE(op1);
-        const digit* digits = ((PyLongObject*)op1)->ob_digit;
-        if (intval == 0) {
-            if (size == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-        } else if (intval < 0) {
-            if (size >= 0)
-                Py_RETURN_FALSE;
-            intval = -intval;
-            size = -size;
-        } else {
-            if (size <= 0)
-                Py_RETURN_FALSE;
-        }
-        uintval = (unsigned long) intval;
-#if PyLong_SHIFT * 4 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 4)) {
-            unequal = (size != 5) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[4] != ((uintval >> (4 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-#if PyLong_SHIFT * 3 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 3)) {
-            unequal = (size != 4) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[3] != ((uintval >> (3 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-#if PyLong_SHIFT * 2 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 2)) {
-            unequal = (size != 3) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK)) | (digits[2] != ((uintval >> (2 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-#if PyLong_SHIFT * 1 < SIZEOF_LONG*8
-        if (uintval >> (PyLong_SHIFT * 1)) {
-            unequal = (size != 2) || (digits[0] != (uintval & (unsigned long) PyLong_MASK))
-                 | (digits[1] != ((uintval >> (1 * PyLong_SHIFT)) & (unsigned long) PyLong_MASK));
-        } else
-#endif
-            unequal = (size != 1) || (((unsigned long) digits[0]) != (uintval & (unsigned long) PyLong_MASK));
-        if (unequal == 0) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-    }
-    #endif
-    if (PyFloat_CheckExact(op1)) {
-        const long b = intval;
-        double a = PyFloat_AS_DOUBLE(op1);
-        if ((double)a == (double)b) Py_RETURN_TRUE; else Py_RETURN_FALSE;
-    }
-    return (
-        PyObject_RichCompare(op1, op2, Py_EQ));
-}
-
-/* GetItemInt */
-static PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyList_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              CYTHON_NCP_UNUSED int wraparound,
-                                                              CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    Py_ssize_t wrapped_i = i;
-    if (wraparound & unlikely(i < 0)) {
-        wrapped_i += PyTuple_GET_SIZE(o);
-    }
-    if ((!boundscheck) || likely(__Pyx_is_valid_index(wrapped_i, PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, wrapped_i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i, int is_list,
-                                                     CYTHON_NCP_UNUSED int wraparound,
-                                                     CYTHON_NCP_UNUSED int boundscheck) {
-#if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS && CYTHON_USE_TYPE_SLOTS
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely(__Pyx_is_valid_index(n, PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely(__Pyx_is_valid_index(n, PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (!PyErr_ExceptionMatches(PyExc_OverflowError))
-                        return NULL;
-                    PyErr_Clear();
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-}
-
 /* PyObjectCall2Args */
 static CYTHON_UNUSED PyObject* __Pyx_PyObject_Call2Args(PyObject* function, PyObject* arg1, PyObject* arg2) {
     PyObject *args, *result = NULL;
@@ -3470,6 +4327,81 @@ static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x) {
         Py_DECREF(retval);
     }
     return 0;
+}
+
+/* GetBuiltinName */
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
+
+/* PyDictVersioning */
+#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
+}
+static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
+    PyObject **dictptr = NULL;
+    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
+    if (offset) {
+#if CYTHON_COMPILING_IN_CPYTHON
+        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
+#else
+        dictptr = _PyObject_GetDictPtr(obj);
+#endif
+    }
+    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
+}
+static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
+    PyObject *dict = Py_TYPE(obj)->tp_dict;
+    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
+        return 0;
+    return obj_dict_version == __Pyx_get_object_dict_version(obj);
+}
+#endif
+
+/* GetModuleGlobalName */
+#if CYTHON_USE_DICT_VERSIONS
+static PyObject *__Pyx__GetModuleGlobalName(PyObject *name, PY_UINT64_T *dict_version, PyObject **dict_cached_value)
+#else
+static CYTHON_INLINE PyObject *__Pyx__GetModuleGlobalName(PyObject *name)
+#endif
+{
+    PyObject *result;
+#if !CYTHON_AVOID_BORROWED_REFS
+#if CYTHON_COMPILING_IN_CPYTHON && PY_VERSION_HEX >= 0x030500A1
+    result = _PyDict_GetItem_KnownHash(__pyx_d, name, ((PyASCIIObject *) name)->hash);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    } else if (unlikely(PyErr_Occurred())) {
+        return NULL;
+    }
+#else
+    result = PyDict_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+#endif
+#else
+    result = PyObject_GetItem(__pyx_d, name);
+    __PYX_UPDATE_DICT_CACHE(__pyx_d, result, *dict_cached_value, *dict_version)
+    if (likely(result)) {
+        return __Pyx_NewRef(result);
+    }
+    PyErr_Clear();
+#endif
+    return __Pyx_GetBuiltinName(name);
 }
 
 /* FetchCommonType */
@@ -4215,32 +5147,6 @@ static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObj
     Py_XDECREF(owned_metaclass);
     return result;
 }
-
-/* PyDictVersioning */
-#if CYTHON_USE_DICT_VERSIONS && CYTHON_USE_TYPE_SLOTS
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_tp_dict_version(PyObject *obj) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    return likely(dict) ? __PYX_GET_DICT_VERSION(dict) : 0;
-}
-static CYTHON_INLINE PY_UINT64_T __Pyx_get_object_dict_version(PyObject *obj) {
-    PyObject **dictptr = NULL;
-    Py_ssize_t offset = Py_TYPE(obj)->tp_dictoffset;
-    if (offset) {
-#if CYTHON_COMPILING_IN_CPYTHON
-        dictptr = (likely(offset > 0)) ? (PyObject **) ((char *)obj + offset) : _PyObject_GetDictPtr(obj);
-#else
-        dictptr = _PyObject_GetDictPtr(obj);
-#endif
-    }
-    return (dictptr && *dictptr) ? __PYX_GET_DICT_VERSION(*dictptr) : 0;
-}
-static CYTHON_INLINE int __Pyx_object_dict_version_matches(PyObject* obj, PY_UINT64_T tp_dict_version, PY_UINT64_T obj_dict_version) {
-    PyObject *dict = Py_TYPE(obj)->tp_dict;
-    if (unlikely(!dict) || unlikely(tp_dict_version != __PYX_GET_DICT_VERSION(dict)))
-        return 0;
-    return obj_dict_version == __Pyx_get_object_dict_version(obj);
-}
-#endif
 
 /* PyErrFetchRestore */
 #if CYTHON_FAST_THREAD_STATE

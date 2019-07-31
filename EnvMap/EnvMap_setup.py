@@ -3,5 +3,6 @@ from distutils.core import setup
 from Cython.Build import cythonize
 
 setup(
-    ext_modules=cythonize("EnvMap.pyx")
+    name='EnvMap',
+    ext_modules=cythonize("*.pyx"),
 )

@@ -22,9 +22,14 @@ class EnvMap:
             if sum(row)/len(row) > 0:
                 for j, pixel in enumerate(row):
                     if pixel == 30:
-                        self._buoy_data.append([i - self._offset[0], j - self._offset[1], "green"])
+                        y = i - self._offset[0]
+                        x = j - self._offset[1]
+                        self._buoy_data.append([y, x, "green"])
                     elif pixel == 50:
-                        self._buoy_data.append([i - self._offset[0], j - self._offset[1], "red"])
+                        y = i - self._offset[0]
+                        x = j - self._offset[1]
+                        self._buoy_data.count([y,x,"red"])
+                        self._buoy_data.append([y, x, "red"])
 
     def get_map(self):
         """
