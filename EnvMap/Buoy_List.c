@@ -1268,7 +1268,6 @@ static const char __pyx_k_doc[] = "__doc__";
 static const char __pyx_k_red[] = "red";
 static const char __pyx_k_Buoy[] = "Buoy";
 static const char __pyx_k_buoy[] = "buoy";
-static const char __pyx_k_hits[] = "_hits";
 static const char __pyx_k_init[] = "__init__";
 static const char __pyx_k_item[] = "item";
 static const char __pyx_k_main[] = "__main__";
@@ -1354,7 +1353,6 @@ static PyObject *__pyx_n_s_get_confirmed_buoys;
 static PyObject *__pyx_n_s_get_hits;
 static PyObject *__pyx_n_s_green;
 static PyObject *__pyx_n_s_green_hits;
-static PyObject *__pyx_n_s_hits;
 static PyObject *__pyx_n_s_increment_hits;
 static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_n_s_item;
@@ -2164,8 +2162,8 @@ static PyObject *__pyx_pf_9Buoy_List_4Buoy_8get_attributes(CYTHON_UNUSED PyObjec
  *         return [self._y, self._x, self._color]
  * 
  *     def get_hits(self):             # <<<<<<<<<<<<<<
- *         return self._hits
- * 
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits
  */
 
 /* Python wrapper */
@@ -2186,33 +2184,118 @@ static PyObject *__pyx_pf_9Buoy_List_4Buoy_10get_hits(CYTHON_UNUSED PyObject *__
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  int __pyx_t_4;
   __Pyx_RefNannySetupContext("get_hits", 0);
 
   /* "Buoy_List.pyx":36
  * 
  *     def get_hits(self):
- *         return self._hits             # <<<<<<<<<<<<<<
+ *         if self._red_hits > self._green_hits:             # <<<<<<<<<<<<<<
+ *             return self._red_hits
+ *         elif self._green_hits > self._red_hits:
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_red_hits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_green_hits); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_1, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 36, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (__pyx_t_4) {
+
+    /* "Buoy_List.pyx":37
+ *     def get_hits(self):
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits             # <<<<<<<<<<<<<<
+ *         elif self._green_hits > self._red_hits:
+ *             return self._green_hits
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_red_hits); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 37, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_r = __pyx_t_3;
+    __pyx_t_3 = 0;
+    goto __pyx_L0;
+
+    /* "Buoy_List.pyx":36
+ * 
+ *     def get_hits(self):
+ *         if self._red_hits > self._green_hits:             # <<<<<<<<<<<<<<
+ *             return self._red_hits
+ *         elif self._green_hits > self._red_hits:
+ */
+  }
+
+  /* "Buoy_List.pyx":38
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits
+ *         elif self._green_hits > self._red_hits:             # <<<<<<<<<<<<<<
+ *             return self._green_hits
+ *         return 0
+ */
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_green_hits); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_red_hits); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_3, __pyx_t_2, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_4 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_4 < 0)) __PYX_ERR(0, 38, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  if (__pyx_t_4) {
+
+    /* "Buoy_List.pyx":39
+ *             return self._red_hits
+ *         elif self._green_hits > self._red_hits:
+ *             return self._green_hits             # <<<<<<<<<<<<<<
+ *         return 0
+ * 
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_green_hits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_r = __pyx_t_1;
+    __pyx_t_1 = 0;
+    goto __pyx_L0;
+
+    /* "Buoy_List.pyx":38
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits
+ *         elif self._green_hits > self._red_hits:             # <<<<<<<<<<<<<<
+ *             return self._green_hits
+ *         return 0
+ */
+  }
+
+  /* "Buoy_List.pyx":40
+ *         elif self._green_hits > self._red_hits:
+ *             return self._green_hits
+ *         return 0             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_hits); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 36, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __Pyx_INCREF(__pyx_int_0);
+  __pyx_r = __pyx_int_0;
   goto __pyx_L0;
 
   /* "Buoy_List.pyx":35
  *         return [self._y, self._x, self._color]
  * 
  *     def get_hits(self):             # <<<<<<<<<<<<<<
- *         return self._hits
- * 
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits
  */
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
   __Pyx_AddTraceback("Buoy_List.Buoy.get_hits", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
@@ -2221,7 +2304,7 @@ static PyObject *__pyx_pf_9Buoy_List_4Buoy_10get_hits(CYTHON_UNUSED PyObject *__
   return __pyx_r;
 }
 
-/* "Buoy_List.pyx":40
+/* "Buoy_List.pyx":44
  * 
  * class BuoyList:
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -2249,28 +2332,28 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList___init__(CYTHON_UNUSED PyObject *
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__init__", 0);
 
-  /* "Buoy_List.pyx":41
+  /* "Buoy_List.pyx":45
  * class BuoyList:
  *     def __init__(self):
  *         self._buoy_list = []             # <<<<<<<<<<<<<<
  *         self._confirm_thresh = 8
  * 
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 41, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list, __pyx_t_1) < 0) __PYX_ERR(0, 41, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list, __pyx_t_1) < 0) __PYX_ERR(0, 45, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Buoy_List.pyx":42
+  /* "Buoy_List.pyx":46
  *     def __init__(self):
  *         self._buoy_list = []
  *         self._confirm_thresh = 8             # <<<<<<<<<<<<<<
  * 
  *     def add_buoy(self, buoy):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh, __pyx_int_8) < 0) __PYX_ERR(0, 42, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh, __pyx_int_8) < 0) __PYX_ERR(0, 46, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":40
+  /* "Buoy_List.pyx":44
  * 
  * class BuoyList:
  *     def __init__(self):             # <<<<<<<<<<<<<<
@@ -2291,7 +2374,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList___init__(CYTHON_UNUSED PyObject *
   return __pyx_r;
 }
 
-/* "Buoy_List.pyx":44
+/* "Buoy_List.pyx":48
  *         self._confirm_thresh = 8
  * 
  *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
@@ -2331,11 +2414,11 @@ static PyObject *__pyx_pw_9Buoy_List_8BuoyList_3add_buoy(PyObject *__pyx_self, P
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_buoy)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("add_buoy", 1, 2, 2, 1); __PYX_ERR(0, 44, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("add_buoy", 1, 2, 2, 1); __PYX_ERR(0, 48, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_buoy") < 0)) __PYX_ERR(0, 44, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "add_buoy") < 0)) __PYX_ERR(0, 48, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2348,7 +2431,7 @@ static PyObject *__pyx_pw_9Buoy_List_8BuoyList_3add_buoy(PyObject *__pyx_self, P
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("add_buoy", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 44, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("add_buoy", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 48, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Buoy_List.BuoyList.add_buoy", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2379,21 +2462,21 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("add_buoy", 0);
 
-  /* "Buoy_List.pyx":45
+  /* "Buoy_List.pyx":49
  * 
  *     def add_buoy(self, buoy):
  *         if len(self._buoy_list) > 0:             # <<<<<<<<<<<<<<
  *             found = False
  *             for item in self._buoy_list:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 45, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 49, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((__pyx_t_2 > 0) != 0);
   if (__pyx_t_3) {
 
-    /* "Buoy_List.pyx":46
+    /* "Buoy_List.pyx":50
  *     def add_buoy(self, buoy):
  *         if len(self._buoy_list) > 0:
  *             found = False             # <<<<<<<<<<<<<<
@@ -2402,22 +2485,22 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
  */
     __pyx_v_found = 0;
 
-    /* "Buoy_List.pyx":47
+    /* "Buoy_List.pyx":51
  *         if len(self._buoy_list) > 0:
  *             found = False
  *             for item in self._buoy_list:             # <<<<<<<<<<<<<<
  *                 item_attr = item.get_attributes()
  *                 if buoy[0] == item_attr[0] and buoy[1] == item_attr[1]:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
       __pyx_t_4 = __pyx_t_1; __Pyx_INCREF(__pyx_t_4); __pyx_t_2 = 0;
       __pyx_t_5 = NULL;
     } else {
-      __pyx_t_2 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_2 = -1; __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 51, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 47, __pyx_L1_error)
+      __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext; if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 51, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     for (;;) {
@@ -2425,17 +2508,17 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
         if (likely(PyList_CheckExact(__pyx_t_4))) {
           if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_4)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_4, __pyx_t_2); __Pyx_INCREF(__pyx_t_1); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 51, __pyx_L1_error)
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_4, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 51, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -2445,7 +2528,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 47, __pyx_L1_error)
+            else __PYX_ERR(0, 51, __pyx_L1_error)
           }
           break;
         }
@@ -2454,14 +2537,14 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
       __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "Buoy_List.pyx":48
+      /* "Buoy_List.pyx":52
  *             found = False
  *             for item in self._buoy_list:
  *                 item_attr = item.get_attributes()             # <<<<<<<<<<<<<<
  *                 if buoy[0] == item_attr[0] and buoy[1] == item_attr[1]:
  *                     item.increment_hits(buoy[2])
  */
-      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_attributes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 48, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_attributes); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 52, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_7 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2475,56 +2558,56 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
       }
       __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 52, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_v_item_attr, __pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "Buoy_List.pyx":49
+      /* "Buoy_List.pyx":53
  *             for item in self._buoy_list:
  *                 item_attr = item.get_attributes()
  *                 if buoy[0] == item_attr[0] and buoy[1] == item_attr[1]:             # <<<<<<<<<<<<<<
  *                     item.increment_hits(buoy[2])
  *                     found = True
  */
-      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_buoy, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_GetItemInt(__pyx_v_buoy, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_item_attr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_item_attr, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_7 = PyObject_RichCompare(__pyx_t_1, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       if (__pyx_t_8) {
       } else {
         __pyx_t_3 = __pyx_t_8;
         goto __pyx_L7_bool_binop_done;
       }
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_buoy, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_buoy, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_item_attr, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_item_attr, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_1 = PyObject_RichCompare(__pyx_t_7, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 49, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_8 < 0)) __PYX_ERR(0, 53, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_3 = __pyx_t_8;
       __pyx_L7_bool_binop_done:;
       if (__pyx_t_3) {
 
-        /* "Buoy_List.pyx":50
+        /* "Buoy_List.pyx":54
  *                 item_attr = item.get_attributes()
  *                 if buoy[0] == item_attr[0] and buoy[1] == item_attr[1]:
  *                     item.increment_hits(buoy[2])             # <<<<<<<<<<<<<<
  *                     found = True
  *             if not found:
  */
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_increment_hits); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_increment_hits); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_buoy, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 50, __pyx_L1_error)
+        __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_buoy, 2, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_7);
         __pyx_t_9 = NULL;
         if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
@@ -2539,12 +2622,12 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
         __pyx_t_1 = (__pyx_t_9) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_9, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_7);
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 50, __pyx_L1_error)
+        if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 54, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "Buoy_List.pyx":51
+        /* "Buoy_List.pyx":55
  *                 if buoy[0] == item_attr[0] and buoy[1] == item_attr[1]:
  *                     item.increment_hits(buoy[2])
  *                     found = True             # <<<<<<<<<<<<<<
@@ -2553,7 +2636,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
  */
         __pyx_v_found = 1;
 
-        /* "Buoy_List.pyx":49
+        /* "Buoy_List.pyx":53
  *             for item in self._buoy_list:
  *                 item_attr = item.get_attributes()
  *                 if buoy[0] == item_attr[0] and buoy[1] == item_attr[1]:             # <<<<<<<<<<<<<<
@@ -2562,7 +2645,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
  */
       }
 
-      /* "Buoy_List.pyx":47
+      /* "Buoy_List.pyx":51
  *         if len(self._buoy_list) > 0:
  *             found = False
  *             for item in self._buoy_list:             # <<<<<<<<<<<<<<
@@ -2572,7 +2655,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
     }
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-    /* "Buoy_List.pyx":52
+    /* "Buoy_List.pyx":56
  *                     item.increment_hits(buoy[2])
  *                     found = True
  *             if not found:             # <<<<<<<<<<<<<<
@@ -2582,16 +2665,16 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
     __pyx_t_3 = ((!(__pyx_v_found != 0)) != 0);
     if (__pyx_t_3) {
 
-      /* "Buoy_List.pyx":53
+      /* "Buoy_List.pyx":57
  *                     found = True
  *             if not found:
  *                 self._buoy_list.append(Buoy(buoy))             # <<<<<<<<<<<<<<
  *         else:
  *             self._buoy_list.append(Buoy(buoy))
  */
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
-      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Buoy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Buoy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_7 = NULL;
       if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -2605,14 +2688,14 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
       }
       __pyx_t_1 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_v_buoy) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_buoy);
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 53, __pyx_L1_error)
+      if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 53, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_4, __pyx_t_1); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 57, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "Buoy_List.pyx":52
+      /* "Buoy_List.pyx":56
  *                     item.increment_hits(buoy[2])
  *                     found = True
  *             if not found:             # <<<<<<<<<<<<<<
@@ -2621,7 +2704,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
  */
     }
 
-    /* "Buoy_List.pyx":45
+    /* "Buoy_List.pyx":49
  * 
  *     def add_buoy(self, buoy):
  *         if len(self._buoy_list) > 0:             # <<<<<<<<<<<<<<
@@ -2631,7 +2714,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
     goto __pyx_L3;
   }
 
-  /* "Buoy_List.pyx":55
+  /* "Buoy_List.pyx":59
  *                 self._buoy_list.append(Buoy(buoy))
  *         else:
  *             self._buoy_list.append(Buoy(buoy))             # <<<<<<<<<<<<<<
@@ -2639,9 +2722,9 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
  *     def get_buoys(self):
  */
   /*else*/ {
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Buoy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 55, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Buoy); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_7 = NULL;
     if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -2655,16 +2738,16 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
     }
     __pyx_t_4 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_v_buoy) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_buoy);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 55, __pyx_L1_error)
+    if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_4); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 55, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_PyObject_Append(__pyx_t_1, __pyx_t_4); if (unlikely(__pyx_t_10 == ((int)-1))) __PYX_ERR(0, 59, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __pyx_L3:;
 
-  /* "Buoy_List.pyx":44
+  /* "Buoy_List.pyx":48
  *         self._confirm_thresh = 8
  * 
  *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
@@ -2691,7 +2774,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_2add_buoy(CYTHON_UNUSED PyObject 
   return __pyx_r;
 }
 
-/* "Buoy_List.pyx":57
+/* "Buoy_List.pyx":61
  *             self._buoy_list.append(Buoy(buoy))
  * 
  *     def get_buoys(self):             # <<<<<<<<<<<<<<
@@ -2719,7 +2802,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_4get_buoys(CYTHON_UNUSED PyObject
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_buoys", 0);
 
-  /* "Buoy_List.pyx":58
+  /* "Buoy_List.pyx":62
  * 
  *     def get_buoys(self):
  *         return self._buoy_list             # <<<<<<<<<<<<<<
@@ -2727,13 +2810,13 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_4get_buoys(CYTHON_UNUSED PyObject
  *     def set_confirmation_threshold(self, thresh):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 58, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 62, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "Buoy_List.pyx":57
+  /* "Buoy_List.pyx":61
  *             self._buoy_list.append(Buoy(buoy))
  * 
  *     def get_buoys(self):             # <<<<<<<<<<<<<<
@@ -2752,7 +2835,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_4get_buoys(CYTHON_UNUSED PyObject
   return __pyx_r;
 }
 
-/* "Buoy_List.pyx":60
+/* "Buoy_List.pyx":64
  *         return self._buoy_list
  * 
  *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
@@ -2792,11 +2875,11 @@ static PyObject *__pyx_pw_9Buoy_List_8BuoyList_7set_confirmation_threshold(PyObj
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_thresh)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("set_confirmation_threshold", 1, 2, 2, 1); __PYX_ERR(0, 60, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("set_confirmation_threshold", 1, 2, 2, 1); __PYX_ERR(0, 64, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_confirmation_threshold") < 0)) __PYX_ERR(0, 60, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "set_confirmation_threshold") < 0)) __PYX_ERR(0, 64, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -2809,7 +2892,7 @@ static PyObject *__pyx_pw_9Buoy_List_8BuoyList_7set_confirmation_threshold(PyObj
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("set_confirmation_threshold", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 60, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("set_confirmation_threshold", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 64, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("Buoy_List.BuoyList.set_confirmation_threshold", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -2827,16 +2910,16 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_6set_confirmation_threshold(CYTHO
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("set_confirmation_threshold", 0);
 
-  /* "Buoy_List.pyx":61
+  /* "Buoy_List.pyx":65
  * 
  *     def set_confirmation_threshold(self, thresh):
  *         self._confirm_thresh = thresh             # <<<<<<<<<<<<<<
  * 
  *     def get_confirmation_threshold(self):
  */
-  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh, __pyx_v_thresh) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh, __pyx_v_thresh) < 0) __PYX_ERR(0, 65, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":60
+  /* "Buoy_List.pyx":64
  *         return self._buoy_list
  * 
  *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
@@ -2856,7 +2939,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_6set_confirmation_threshold(CYTHO
   return __pyx_r;
 }
 
-/* "Buoy_List.pyx":63
+/* "Buoy_List.pyx":67
  *         self._confirm_thresh = thresh
  * 
  *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
@@ -2884,7 +2967,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_8get_confirmation_threshold(CYTHO
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("get_confirmation_threshold", 0);
 
-  /* "Buoy_List.pyx":64
+  /* "Buoy_List.pyx":68
  * 
  *     def get_confirmation_threshold(self):
  *         return self._confirm_thresh             # <<<<<<<<<<<<<<
@@ -2892,13 +2975,13 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_8get_confirmation_threshold(CYTHO
  *     def get_confirmed_buoys(self):
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 64, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "Buoy_List.pyx":63
+  /* "Buoy_List.pyx":67
  *         self._confirm_thresh = thresh
  * 
  *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
@@ -2917,7 +3000,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_8get_confirmation_threshold(CYTHO
   return __pyx_r;
 }
 
-/* "Buoy_List.pyx":66
+/* "Buoy_List.pyx":70
  *         return self._confirm_thresh
  * 
  *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
@@ -2954,34 +3037,34 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
   int __pyx_t_8;
   __Pyx_RefNannySetupContext("get_confirmed_buoys", 0);
 
-  /* "Buoy_List.pyx":67
+  /* "Buoy_List.pyx":71
  * 
  *     def get_confirmed_buoys(self):
  *         arr = []             # <<<<<<<<<<<<<<
  *         for item in self._buoy_list:
  *             if item.get_hits() > self._confirm_thresh:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 67, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 71, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_arr = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "Buoy_List.pyx":68
+  /* "Buoy_List.pyx":72
  *     def get_confirmed_buoys(self):
  *         arr = []
  *         for item in self._buoy_list:             # <<<<<<<<<<<<<<
  *             if item.get_hits() > self._confirm_thresh:
  *                 arr.append(item.get_attributes())
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_buoy_list); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 68, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
@@ -2989,17 +3072,17 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
       if (likely(PyList_CheckExact(__pyx_t_2))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 72, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 68, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 72, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -3009,7 +3092,7 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 68, __pyx_L1_error)
+          else __PYX_ERR(0, 72, __pyx_L1_error)
         }
         break;
       }
@@ -3018,13 +3101,14 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
     __Pyx_XDECREF_SET(__pyx_v_item, __pyx_t_1);
     __pyx_t_1 = 0;
 
-    /* "Buoy_List.pyx":69
+    /* "Buoy_List.pyx":73
  *         arr = []
  *         for item in self._buoy_list:
  *             if item.get_hits() > self._confirm_thresh:             # <<<<<<<<<<<<<<
  *                 arr.append(item.get_attributes())
+ *         return arr
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_hits); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_hits); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_6 = NULL;
     if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3038,24 +3122,25 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
     }
     __pyx_t_1 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 69, __pyx_L1_error)
+    if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_confirm_thresh); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_6 = PyObject_RichCompare(__pyx_t_1, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_6); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 69, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_6); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(0, 73, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_7) {
 
-      /* "Buoy_List.pyx":70
+      /* "Buoy_List.pyx":74
  *         for item in self._buoy_list:
  *             if item.get_hits() > self._confirm_thresh:
  *                 arr.append(item.get_attributes())             # <<<<<<<<<<<<<<
+ *         return arr
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_attributes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_item, __pyx_n_s_get_attributes); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_1 = NULL;
       if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
@@ -3069,21 +3154,22 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
       }
       __pyx_t_6 = (__pyx_t_1) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 70, __pyx_L1_error)
+      if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_arr, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 70, __pyx_L1_error)
+      __pyx_t_8 = __Pyx_PyList_Append(__pyx_v_arr, __pyx_t_6); if (unlikely(__pyx_t_8 == ((int)-1))) __PYX_ERR(0, 74, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "Buoy_List.pyx":69
+      /* "Buoy_List.pyx":73
  *         arr = []
  *         for item in self._buoy_list:
  *             if item.get_hits() > self._confirm_thresh:             # <<<<<<<<<<<<<<
  *                 arr.append(item.get_attributes())
+ *         return arr
  */
     }
 
-    /* "Buoy_List.pyx":68
+    /* "Buoy_List.pyx":72
  *     def get_confirmed_buoys(self):
  *         arr = []
  *         for item in self._buoy_list:             # <<<<<<<<<<<<<<
@@ -3093,7 +3179,17 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":66
+  /* "Buoy_List.pyx":75
+ *             if item.get_hits() > self._confirm_thresh:
+ *                 arr.append(item.get_attributes())
+ *         return arr             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __Pyx_INCREF(__pyx_v_arr);
+  __pyx_r = __pyx_v_arr;
+  goto __pyx_L0;
+
+  /* "Buoy_List.pyx":70
  *         return self._confirm_thresh
  * 
  *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
@@ -3102,8 +3198,6 @@ static PyObject *__pyx_pf_9Buoy_List_8BuoyList_10get_confirmed_buoys(CYTHON_UNUS
  */
 
   /* function exit code */
-  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
-  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
@@ -3201,7 +3295,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_hits, __pyx_k_get_hits, sizeof(__pyx_k_get_hits), 0, 0, 1, 1},
   {&__pyx_n_s_green, __pyx_k_green, sizeof(__pyx_k_green), 0, 0, 1, 1},
   {&__pyx_n_s_green_hits, __pyx_k_green_hits, sizeof(__pyx_k_green_hits), 0, 0, 1, 1},
-  {&__pyx_n_s_hits, __pyx_k_hits, sizeof(__pyx_k_hits), 0, 0, 1, 1},
   {&__pyx_n_s_increment_hits, __pyx_k_increment_hits, sizeof(__pyx_k_increment_hits), 0, 0, 1, 1},
   {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_n_s_item, __pyx_k_item, sizeof(__pyx_k_item), 0, 0, 1, 1},
@@ -3295,85 +3388,85 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
  *         return [self._y, self._x, self._color]
  * 
  *     def get_hits(self):             # <<<<<<<<<<<<<<
- *         return self._hits
- * 
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits
  */
   __pyx_tuple__11 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__11)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
   __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_hits, 35, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) __PYX_ERR(0, 35, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":40
+  /* "Buoy_List.pyx":44
  * 
  * class BuoyList:
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         self._buoy_list = []
  *         self._confirm_thresh = 8
  */
-  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_tuple__13 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__13);
   __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_init, 40, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_init, 44, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) __PYX_ERR(0, 44, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":44
+  /* "Buoy_List.pyx":48
  *         self._confirm_thresh = 8
  * 
  *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
  *         if len(self._buoy_list) > 0:
  *             found = False
  */
-  __pyx_tuple__15 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_buoy, __pyx_n_s_found, __pyx_n_s_item, __pyx_n_s_item_attr); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_tuple__15 = PyTuple_Pack(5, __pyx_n_s_self, __pyx_n_s_buoy, __pyx_n_s_found, __pyx_n_s_item, __pyx_n_s_item_attr); if (unlikely(!__pyx_tuple__15)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__15);
   __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_add_buoy, 44, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(2, 0, 5, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_add_buoy, 48, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) __PYX_ERR(0, 48, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":57
+  /* "Buoy_List.pyx":61
  *             self._buoy_list.append(Buoy(buoy))
  * 
  *     def get_buoys(self):             # <<<<<<<<<<<<<<
  *         return self._buoy_list
  * 
  */
-  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_tuple__17 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__17)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__17);
   __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_buoys, 57, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_buoys, 61, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) __PYX_ERR(0, 61, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":60
+  /* "Buoy_List.pyx":64
  *         return self._buoy_list
  * 
  *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
  *         self._confirm_thresh = thresh
  * 
  */
-  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_thresh); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_thresh); if (unlikely(!__pyx_tuple__19)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_set_confirmation_threshold, 60, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(2, 0, 2, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_set_confirmation_threshold, 64, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) __PYX_ERR(0, 64, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":63
+  /* "Buoy_List.pyx":67
  *         self._confirm_thresh = thresh
  * 
  *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
  *         return self._confirm_thresh
  * 
  */
-  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_tuple__21 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__21)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__21);
   __Pyx_GIVEREF(__pyx_tuple__21);
-  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_confirmation_threshold, 63, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_confirmation_threshold, 67, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) __PYX_ERR(0, 67, __pyx_L1_error)
 
-  /* "Buoy_List.pyx":66
+  /* "Buoy_List.pyx":70
  *         return self._confirm_thresh
  * 
  *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
  *         arr = []
  *         for item in self._buoy_list:
  */
-  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_arr, __pyx_n_s_item); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_tuple__23 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_arr, __pyx_n_s_item); if (unlikely(!__pyx_tuple__23)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
-  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_confirmed_buoys, 66, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_Buoy_List_pyx, __pyx_n_s_get_confirmed_buoys, 70, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -3724,8 +3817,8 @@ if (!__Pyx_RefNanny) {
  *         return [self._y, self._x, self._color]
  * 
  *     def get_hits(self):             # <<<<<<<<<<<<<<
- *         return self._hits
- * 
+ *         if self._red_hits > self._green_hits:
+ *             return self._red_hits
  */
   __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_4Buoy_11get_hits, 0, __pyx_n_s_Buoy_get_hits, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__12)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 35, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -3743,98 +3836,98 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "Buoy_List.pyx":39
+  /* "Buoy_List.pyx":43
  * 
  * 
  * class BuoyList:             # <<<<<<<<<<<<<<
  *     def __init__(self):
  *         self._buoy_list = []
  */
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_BuoyList, __pyx_n_s_BuoyList, (PyObject *) NULL, __pyx_n_s_Buoy_List, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare((PyObject *) NULL, __pyx_empty_tuple, __pyx_n_s_BuoyList, __pyx_n_s_BuoyList, (PyObject *) NULL, __pyx_n_s_Buoy_List, (PyObject *) NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "Buoy_List.pyx":40
+  /* "Buoy_List.pyx":44
  * 
  * class BuoyList:
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         self._buoy_list = []
  *         self._confirm_thresh = 8
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_1__init__, 0, __pyx_n_s_BuoyList___init, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 40, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_1__init__, 0, __pyx_n_s_BuoyList___init, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__14)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 40, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_init, __pyx_t_2) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":44
+  /* "Buoy_List.pyx":48
  *         self._confirm_thresh = 8
  * 
  *     def add_buoy(self, buoy):             # <<<<<<<<<<<<<<
  *         if len(self._buoy_list) > 0:
  *             found = False
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_3add_buoy, 0, __pyx_n_s_BuoyList_add_buoy, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 44, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_3add_buoy, 0, __pyx_n_s_BuoyList_add_buoy, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_buoy, __pyx_t_2) < 0) __PYX_ERR(0, 44, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_add_buoy, __pyx_t_2) < 0) __PYX_ERR(0, 48, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":57
+  /* "Buoy_List.pyx":61
  *             self._buoy_list.append(Buoy(buoy))
  * 
  *     def get_buoys(self):             # <<<<<<<<<<<<<<
  *         return self._buoy_list
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_5get_buoys, 0, __pyx_n_s_BuoyList_get_buoys, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_5get_buoys, 0, __pyx_n_s_BuoyList_get_buoys, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 57, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":60
+  /* "Buoy_List.pyx":64
  *         return self._buoy_list
  * 
  *     def set_confirmation_threshold(self, thresh):             # <<<<<<<<<<<<<<
  *         self._confirm_thresh = thresh
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_7set_confirmation_threshold, 0, __pyx_n_s_BuoyList_set_confirmation_thresh, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 60, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_7set_confirmation_threshold, 0, __pyx_n_s_BuoyList_set_confirmation_thresh, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_set_confirmation_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 60, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_set_confirmation_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 64, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":63
+  /* "Buoy_List.pyx":67
  *         self._confirm_thresh = thresh
  * 
  *     def get_confirmation_threshold(self):             # <<<<<<<<<<<<<<
  *         return self._confirm_thresh
  * 
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_9get_confirmation_threshold, 0, __pyx_n_s_BuoyList_get_confirmation_thresh, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 63, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_9get_confirmation_threshold, 0, __pyx_n_s_BuoyList_get_confirmation_thresh, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__22)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_confirmation_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 63, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_confirmation_threshold, __pyx_t_2) < 0) __PYX_ERR(0, 67, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":66
+  /* "Buoy_List.pyx":70
  *         return self._confirm_thresh
  * 
  *     def get_confirmed_buoys(self):             # <<<<<<<<<<<<<<
  *         arr = []
  *         for item in self._buoy_list:
  */
-  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_11get_confirmed_buoys, 0, __pyx_n_s_BuoyList_get_confirmed_buoys, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 66, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_CyFunction_NewEx(&__pyx_mdef_9Buoy_List_8BuoyList_11get_confirmed_buoys, 0, __pyx_n_s_BuoyList_get_confirmed_buoys, NULL, __pyx_n_s_Buoy_List, __pyx_d, ((PyObject *)__pyx_codeobj__24)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_confirmed_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 66, __pyx_L1_error)
+  if (__Pyx_SetNameInClass(__pyx_t_1, __pyx_n_s_get_confirmed_buoys, __pyx_t_2) < 0) __PYX_ERR(0, 70, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "Buoy_List.pyx":39
+  /* "Buoy_List.pyx":43
  * 
  * 
  * class BuoyList:             # <<<<<<<<<<<<<<
  *     def __init__(self):
  *         self._buoy_list = []
  */
-  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BuoyList, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_Py3ClassCreate(((PyObject*)&__Pyx_DefaultClassType), __pyx_n_s_BuoyList, __pyx_empty_tuple, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BuoyList, __pyx_t_2) < 0) __PYX_ERR(0, 39, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BuoyList, __pyx_t_2) < 0) __PYX_ERR(0, 43, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 

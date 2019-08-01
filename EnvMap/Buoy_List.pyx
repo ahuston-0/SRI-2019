@@ -33,7 +33,11 @@ class Buoy:
         return [self._y, self._x, self._color]
 
     def get_hits(self):
-        return self._hits
+        if self._red_hits > self._green_hits:
+            return self._red_hits
+        elif self._green_hits > self._red_hits:
+            return self._green_hits
+        return 0
 
 
 class BuoyList:
@@ -68,3 +72,4 @@ class BuoyList:
         for item in self._buoy_list:
             if item.get_hits() > self._confirm_thresh:
                 arr.append(item.get_attributes())
+        return arr
