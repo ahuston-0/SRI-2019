@@ -1,3 +1,4 @@
+import numpy as np
 class EnvMap:
     def __init__(self, image, odom_coords):
         """
@@ -18,18 +19,19 @@ class EnvMap:
         :param image: A 2D list containing the current data in the map
         :return: None
         """
-        for i, row in enumerate(self._curr_map):
-            if sum(row)/len(row) > 0:
-                for j, pixel in enumerate(row):
-                    if pixel == 30:
-                        y = i - self._offset[0]
-                        x = j - self._offset[1]
-                        self._buoy_data.append([y, x, "green"])
-                    elif pixel == 50:
-                        y = i - self._offset[0]
-                        x = j - self._offset[1]
-                        self._buoy_data.count([y,x,"red"])
-                        self._buoy_data.append([y, x, "red"])
+        if np.isin(self._curr_map, [30,50]).any():
+            for i, row in enumerate(self._curr_map):
+                if np.isin(row, [30,50]).any():
+                    for j, pixel in enumerate(row):
+                        if pixel == 30:
+                            y = i - self._offset[0]
+                            x = j - self._offset[1]
+                            self._buoy_data.append([y, x, "green"])
+                        elif pixel == 50:
+                            y = i - self._offset[0]
+                            x = j - self._offset[1]
+                            self._buoy_data.count([y,x,"red"])
+                            self._buoy_data.append([y, x, "red"])
 
     def get_map(self):
         """
@@ -49,3 +51,5 @@ class EnvMap:
 
     def set_buoys(self, buoy_list):
         self._buoy_data = buoy_list
+        for item in buoy_list:
+            self._curr_map[item[0]+self._offset[0]][item[1]+self._offset[1]] = 30 if item[2] == "green" else 50 if "red" else self._curr_map[item[0]+self._offset[0]][item[1]+self._offset[1]]
