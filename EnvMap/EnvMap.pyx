@@ -46,3 +46,6 @@ class EnvMap:
         :return: A list of lists, where each sublist is the coordinates and color of a buoy
         """
         return self._buoy_data
+
+    def set_buoys(self, buoy_list):
+        self._buoy_data = buoy_list
