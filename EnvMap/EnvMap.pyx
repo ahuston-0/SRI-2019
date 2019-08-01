@@ -52,4 +52,4 @@ class EnvMap:
     def set_buoys(self, buoy_list):
         self._buoy_data = buoy_list
         for item in buoy_list:
-            self._curr_map[item[0]][item[1]] = 30 if item[2] == "green" else 50 if "red" else self._curr_map[item[0]][item[1]]
+            self._curr_map[item[0]+self._offset[0]][item[1]+self._offset[1]] = 30 if item[2] == "green" else 50 if "red" else self._curr_map[item[0]+self._offset[0]][item[1]+self._offset[1]]
