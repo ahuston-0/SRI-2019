@@ -54,8 +54,8 @@
          vrx_sensors_enabled:=$(arg vrx_sensors_enabled) "/>
 
   <include file="$(find vrx_gazebo)/launch/usv_joydrive.launch"/>
-  <include file="$(find wamv_gazebo)/launch/localization_example.launch"/>
-  <node pkg="stereo_image_proc" type="stereo_image_proc" name="stereo_image_proc" output="screen"/>
+  <!-- include file="$(find vrx_gazebo)/launch/usv_keydrive.launch"/ -->
+  
   <!-- Spawn model in Gazebo -->
   <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
         args="-x $(arg x) -y $(arg y) -z $(arg z)
