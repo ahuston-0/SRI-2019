@@ -61,6 +61,9 @@ class BuoyList:
     def get_buoys(self):
         return self._buoy_list
 
+    def clear_buoy_list(self):
+        self._buoy_list = []
+
     def set_confirmation_threshold(self, thresh):
         self._confirm_thresh = thresh
 
