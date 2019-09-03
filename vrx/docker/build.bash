@@ -29,7 +29,7 @@ key="$1"
 
 case $key in
     -n|--nvidia)
-    BUILD_BASE="--build-arg BASEIMG=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04"
+    BUILD_BASE="--no-cache --build-arg BASEIMG=nvidia/opengl:1.0-glvnd-devel-ubuntu18.04"
     image_name="vrx_nvidia"
     shift
     ;;
