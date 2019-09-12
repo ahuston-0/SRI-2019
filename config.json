@@ -1,0 +1,14 @@
+{
+  "node_name": "liveproc",
+  "map_topic": "updated_map",
+  "map_resolution": 0.5,
+  "camera_range_meters": 85,
+  "overlay": false,
+  "display_robot_angle": false,
+  "display_rectified_image": false,
+  "display_map": false,
+  "display_info": false,
+  "search_beam_width": 5,
+  "allowed_distance_error": 0.15,
+  "numpy_print_threshold": "max"
+}
