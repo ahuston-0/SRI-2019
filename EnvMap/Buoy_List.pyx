@@ -43,7 +43,7 @@ class Buoy:
 class BuoyList:
     def __init__(self):
         self._buoy_list = []
-        self._confirm_thresh = 8
+        self._confirm_thresh = 4
 
     def add_buoy(self, buoy):
         if len(self._buoy_list) > 0:
